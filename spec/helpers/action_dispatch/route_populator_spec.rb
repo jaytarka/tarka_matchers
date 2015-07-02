@@ -11,22 +11,22 @@ describe route_populator do
 		end
 
 		context 'when unpopulated_route contains no params' do
-			Given(:unpopulated_route){ 'foo/baz/bing' }
-			Given(:populated_route){ 'foo/baz/bing'}
+			Given(:unpopulated_route){ '/foo/baz/bing' }
+			Given(:populated_route){ '/foo/baz/bing'}
 			subject{ route_populator.route_populate(unpopulated_route, populated_route) }	
 			Then { is_expected.to eq populated_route }
 		end
 			
 		context 'when unpopulated_route contains params' do
-			Given(:unpopulated_route){ 'foo/:one/baz/:two/bing/:three' }
-			Given(:populated_route){ 'foo/ARGUMENT1/baz/ARGUMENT2/bing/ARGUMENT3'}
+			Given(:unpopulated_route){ '/foo/:one/baz/:two/bing/:three' }
+			Given(:populated_route){ '/foo/ARGUMENT1/baz/ARGUMENT2/bing/ARGUMENT3'}
 			subject{ route_populator.route_populate(unpopulated_route, populated_route) }	
 			Then { is_expected.to eq populated_route }
 		end	
 
 		context 'when populated_route contains params' do
-			Given(:unpopulated_route){ 'foo/:one/baz/:two/bing/:three' }
-			Given(:populated_route){ 'foo/ARGUMENT1/b/:one/az/ARGUMENT2/bing/AR/:two/GUMENT3'}
+			Given(:unpopulated_route){ '/foo/:one/baz/:two/bing/:three' }
+			Given(:populated_route){ '/foo/ARGUMENT1/b/:one/az/ARGUMENT2/bing/AR/:two/GUMENT3'}
 			subject{ route_populator.route_populate(unpopulated_route, populated_route) }	
 			Then { is_expected.to eq populated_route }
 		end	
