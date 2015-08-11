@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tarka_matchers/matchers/matcher/pass'
+require 'tarka_matchers/matchers/matcher/fail'
 
 RSpec.describe TarkaMatchers::Matchers::Matcher do
 	let(:matcher){ subject }
@@ -7,24 +7,24 @@ RSpec.describe TarkaMatchers::Matchers::Matcher do
 	let(:negated_expectation){ expect(1).to_not eq argument }
 	let(:not_met){ RSpec::Expectations::ExpectationNotMetError }
 
-	specify{ expect(matcher).to respond_to :pass }
+	specify{ expect(matcher).to respond_to :fail }
 
-	describe '.pass' do
-		let(:normal){ expect{ expectation }.to matcher.pass }
-		let(:negated){ expect{ expectation }.to_not matcher.pass }
+	describe '.fail' do
+		let(:normal){ expect{ expectation }.to matcher.fail }
+		let(:negated){ expect{ expectation }.to_not matcher.fail }
 
 		context 'when expectation is normal_expectation' do
 			let(:expectation){ normal_expectation }
 			
 			context 'when argument causes a pass' do
-				let(:argument){ 1 }
+				let(:argument){ 2 }
 
 				specify{ expect{ normal }.to_not raise_exception }
 				specify{ expect{ negated }.to raise_exception not_met }
 			end
 		
 			context 'when argument causes a failure' do
-				let(:argument){ 2 }
+				let(:argument){ 1 }
 	
 				specify{ expect{ normal }.to raise_exception not_met }
 				specify{ expect{ negated }.to_not raise_exception }
@@ -35,14 +35,14 @@ RSpec.describe TarkaMatchers::Matchers::Matcher do
 			let(:expectation){ negated_expectation }
 			
 			context 'when argument causes a pass' do
-				let(:argument){ 1 }
+				let(:argument){ 2 }
 
 				specify{ expect{ negated }.to_not raise_exception }
 				specify{ expect{ normal }.to raise_exception not_met }
 			end
 		
 			context 'when argument causes a failure' do
-				let(:argument){ 2 }
+				let(:argument){ 1 }
 	
 				specify{ expect{ negated }.to raise_exception not_met }
 				specify{ expect{ normal }.to_not raise_exception }

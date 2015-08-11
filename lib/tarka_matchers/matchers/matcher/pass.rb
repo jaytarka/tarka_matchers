@@ -19,7 +19,7 @@ module TarkaMatchers
 					end
 				
 					def report
-						"Spec failed with #{@actual}"
+						"Spec result: #{@actual}"
 					end
 
 					def failure_message
