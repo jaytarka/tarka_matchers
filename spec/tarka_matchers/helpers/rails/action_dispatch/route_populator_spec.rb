@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tarka_matchers/helpers/action_dispatch/route_populator'
+require 'tarka_matchers/helpers/rails/action_dispatch/route_populator'
 
 route_populator = TarkaMatchers::Helpers::ActionDispatch::RoutePopulator
 describe route_populator do
