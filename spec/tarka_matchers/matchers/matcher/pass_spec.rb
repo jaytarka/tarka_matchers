@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'tarka_matchers/matchers/matcher/pass'
 
-RSpec.describe TarkaMatchers::Matchers::Matcher do
+describe TarkaMatchers::Matchers::Matcher do
 	let(:matcher){ subject }
 	let(:normal_expectation){ expect(1).to eq argument }
 	let(:negated_expectation){ expect(1).to_not eq argument }

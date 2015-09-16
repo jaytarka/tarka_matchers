@@ -2,7 +2,7 @@ require 'tarka_matchers/helpers/matcher/main'
 module TarkaMatchers
 	module Matchers
 		module Matcher
-				def	self.pass
+				def	pass
 					Pass.new
 				end
 

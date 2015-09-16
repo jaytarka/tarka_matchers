@@ -2,7 +2,7 @@ require 'tarka_matchers/helpers/matcher/main'
 module TarkaMatchers
 	module Matchers
 		module Matcher
-				def	fail
+				def	self.fail
 					Fail.new
 				end
 
