@@ -6,9 +6,9 @@ module TarkaMatchers
 	module Matchers
 		module Matcher
 			class MatcherTarget
-				def target target, block_target, real_expect, expected
-					@expected = expected
-					@real_expect = real_expect
+				def target target, block_target, active_matcher
+					ap active_matcher
+					@active_matcher = active_matcher
 					if target.length > 0
 					 ap target
 					else
@@ -18,35 +18,25 @@ module TarkaMatchers
 				end
 
 				def to matcher
-					ap 'twice':
-					@matcher = matcher	
-					HaveADescriptionOf.new matcher, @expected, @real_expect
+					@matcher = matcher.description
+					#@active_matcher.active_matcher @active_matcher
 				end
 
-					def supports_block_expectations?
-						true
-					end
 				alias_method :to_not, :to
-		end
+				end
 
 				def	have_a_description_of expected			
-					ap 'matcher called'
-					rspec_matchers = ::RSpec::Matchers
-					real_expect = rspec_matchers.instance_method :expect
-					rspec_matchers.send :remove_method, :expect
-					rspec_matchers.send(:define_method, :expect){ |*target,&block_target| MatcherTarget.new.target target, block_target, real_expect, expected }
-					'hello'
+					HaveADescriptionOf.new expected
 				end
 
 				class HaveADescriptionOf
-					def initialize matcher, expected, real_expect
-						@description = matcher.description
-						@expected = expected
-						ap @description
-						rspec_matchers = ::RSpec::Matchers
-						real_expect = rspec_matchers.instance_method :expect
-				#		rspec_matchers.send :remove_method, :expect
-				#		rspec_matchers.send :define_method, :expect, real_expect
+			#		attr_writer :matcher
+					def active_matcher the_matcher
+						ap the_matcher
+					end
+
+					def initialize expected
+
 					end
 
 					
@@ -55,8 +45,20 @@ module TarkaMatchers
 					end
 
 					def matches? actual
-						ap actual
-					end
+						ap 'here:'
+						active_matcher = self
+						rspec_matchers = ::RSpec::Matchers
+						real_expect = rspec_matchers.instance_method :expect
+						rspec_matchers.send :remove_method, :expect
+						rspec_matchers.send(:define_method, :expect){ |*target, &block_target| MatcherTarget.new.target target, block_target, active_matcher }
+
+						actual.call
+
+						rspec_matchers.send :remove_method, :expect
+						rspec_matchers.send(:define_method, :expect, real_expect)
+
+					#	ap matcher
+				end
 
 					def description	
 						"fail."
@@ -73,6 +75,7 @@ module TarkaMatchers
 					def failure_message_when_negated
 						"#{description} #{report}"
 					end
+
 			end
 		end
 	end
