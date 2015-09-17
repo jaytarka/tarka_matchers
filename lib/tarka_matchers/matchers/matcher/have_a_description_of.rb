@@ -1,18 +1,41 @@
 require 'tarka_matchers/helpers/matcher/main'
-require 'tarka_matchers/helpers/matcher/expect_capture'
+#require 'tarka_matchers/helpers/matcher/expect_capture'
+require 'awesome_print'
 
 module TarkaMatchers
 	module Matchers
 		module Matcher
-				def	have_a_description_of expected
+			class MatcherTarget
+				def target target, block_target
+					puts 'called'
+					if target
+						ap target
+					else
+						ap block_target
+						block_target.call
+					end
+					self
+				end
+
+				def to matcher
+					puts "Matcher: #{matcher.inspect}"	
+				end
+
+				alias_method :to_not, :to
+		end
+
+				def	have_a_description_of expected			
+					rspec_matchers = ::RSpec::Matchers
+					real_expect = rspec_matchers.instance_method :expect
+					rspec_matchers.send :remove_method, :expect
+					rspec_matchers.send(:define_method, :expect){ |target=nil,&block_target| MatcherTarget.new.target target, block_target }
+	
 					HaveADescriptionOf.new expected
 				end
 
 				class HaveADescriptionOf
 					def initialize expected
 						@expected = expected
-						matcher_target = TarkaMatchers::Helpers::Matcher::ExpectCapture
-						puts "Heres the two folks: #{matcher.to}"
 					end
 
 					
@@ -21,20 +44,7 @@ module TarkaMatchers
 					end
 
 					def matches? actual
-						puts actual
-						actual.call
 
-						#matcher = actual.call
-#						matcher.send :matches?,
-						#puts 
-						#puts @expected
-						
-						#@actual = matcher.description
-						#if @actual
-						#	false
-						#else
-					#		@actual
-					#	end
 					end
 
 					def description	
