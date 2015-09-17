@@ -1,5 +1,5 @@
 def baz_up_to expected
-	FooUpTo.new expected
+	BazUpTo.new expected
 end
 
 class BazUpTo
