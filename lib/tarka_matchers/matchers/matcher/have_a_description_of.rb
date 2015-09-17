@@ -7,10 +7,9 @@ module TarkaMatchers
 		module Matcher
 			class MatcherTarget
 				def target target, block_target, active_matcher
-					ap active_matcher
 					@active_matcher = active_matcher
+					#ap "helllo #{active_matcher}"
 					if target.length > 0
-					 ap target
 					else
 						block_target.call
 					end
@@ -19,7 +18,7 @@ module TarkaMatchers
 
 				def to matcher
 					@matcher = matcher.description
-					#@active_matcher.active_matcher @active_matcher
+					@active_matcher.actual_matcher = @matcher
 				end
 
 				alias_method :to_not, :to
@@ -30,11 +29,7 @@ module TarkaMatchers
 				end
 
 				class HaveADescriptionOf
-			#		attr_writer :matcher
-					def active_matcher the_matcher
-						ap the_matcher
-					end
-
+					attr_writer :actual_matcher
 					def initialize expected
 
 					end
@@ -45,7 +40,7 @@ module TarkaMatchers
 					end
 
 					def matches? actual
-						ap 'here:'
+						#ap "here: #{self}"
 						active_matcher = self
 						rspec_matchers = ::RSpec::Matchers
 						real_expect = rspec_matchers.instance_method :expect
@@ -57,7 +52,7 @@ module TarkaMatchers
 						rspec_matchers.send :remove_method, :expect
 						rspec_matchers.send(:define_method, :expect, real_expect)
 
-					#	ap matcher
+						ap @actual_matcher
 				end
 
 					def description	
