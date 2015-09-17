@@ -7,9 +7,9 @@ describe TarkaMatchers::Matchers::Matcher do
 
 	describe '.have_a_description_of' do
 		specify{ expect{ expect(43).to foo_up_to 458 }.to have_a_description_of 'hwhwhw' }
-		specify{ expect{ expect(43).to foo_up_to 458 }.to have_a_description_of 'hwhwhw' }
-		specify{ expect( 3 ).to eq 43 }
-		specify{ expect( 43 ).to eq 43 }
+#		specify{ expect{ expect(43).to foo_up_to 458 }.to have_a_description_of 'hwhwhw' }
+#		specify{ expect( 3 ).to eq 43 }
+#		specify{ expect( 43 ).to eq 43 }
 	end
 
 end
