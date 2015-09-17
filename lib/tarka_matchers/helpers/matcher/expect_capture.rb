@@ -2,25 +2,20 @@ module TarkaMatchers
 	module Helpers
 		module Matcher
 			class ExpectCapture
-				class MatcherTarget
-					def initialize target
-						puts target
+				def initialize target, block_target, active_matcher
+					@active_matcher = active_matcher
+					if target.length > 0
+					else
+						block_target.call
 					end
-
-					def to matcher
-						puts 'boooooooooooop'
-						puts matcher.inspect	
-					end
-
-					alias_method :to_not, :to
 				end
 
-				rspec_matchers = ::RSpec::Matchers
-				real_expect = rspec_matchers.instance_method :expect
-				rspec_matchers.send :remove_method, :expect
-				rspec_matchers.send(:define_method, :expect){ |target| MatcherTarget.new target }
+				def to matcher
+					@active_matcher.actual_matcher = matcher
+				end
+
+				alias_method :to_not, :to
 			end
 		end
 	end
 end
-
