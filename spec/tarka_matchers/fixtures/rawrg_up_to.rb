@@ -1,8 +1,8 @@
-def baz_up_to expected
-	BazUpTo.new expected
+def rawrg_up_to expected
+	RawrgUpTo.new expected
 end
 
-class BazUpTo
+class RawrgUpTo
 	def initialize expected
 		@expected = expected
 	end
@@ -13,7 +13,7 @@ class BazUpTo
 	end
 
 	def description
-		"baz around."
+		"rawrg around."
 	end
 
 	def report
@@ -21,14 +21,10 @@ class BazUpTo
 	end
 
 	def failure_message
-		"boo around. #{report}"
+		"rwarg around. #{report}"
 	end
 
 	def failure_message_when_negated
-		"biz around. #{report}"
-	end
-
-	def supports_block_expectations?
-		true
+		"rawr around. #{report}"
 	end
 end

@@ -27,4 +27,8 @@ class FooUpTo
 	def failure_message_when_negated
 		"fiz around. #{report}"
 	end
+
+	def supports_block_expectations?
+		false
+	end
 end
