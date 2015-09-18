@@ -19,20 +19,7 @@ module TarkaMatchers
 				end
 
 				def matches? actual
-					active_matcher = self
-					rspec_matchers = ::RSpec::Matchers
-					real_expect = rspec_matchers.instance_method :expect
-					rspec_matchers.send :remove_method, :expect
-					rspec_matchers.send(:define_method, :expect){ |*target, &block_target| TarkaMatchers::Helpers::Matcher::ExpectCapture.new target, block_target, active_matcher }
-
-					actual.call
-
-					rspec_matchers.send :remove_method, :expect
-					rspec_matchers.send(:define_method, :expect, real_expect)
-
-					ap @actual_matcher
-					ap @actual_matcher.class
-
+					@actual_matcher = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual)
 					@actual = @actual_matcher.description.prepend 'should '
 					@actual == @expected
 				end
