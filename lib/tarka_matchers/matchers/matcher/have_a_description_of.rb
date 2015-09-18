@@ -30,16 +30,19 @@ module TarkaMatchers
 					rspec_matchers.send :remove_method, :expect
 					rspec_matchers.send(:define_method, :expect, real_expect)
 
+					ap @actual_matcher
+					ap @actual_matcher.class
+
 					@actual = @actual_matcher.description.prepend 'should '
 					@actual == @expected
 				end
 
 				def description	
-					"have a description of #{@expected}."
+					"utilize a matcher, '#{@actual_matcher.class}', that has a description of '#{@expected}'."
 				end
 				
 					def report
-					"Expected a decription of '#{@expected}'. Got a description of '#{@actual}'"
+					"The matcher has a description of '#{@actual}'."
 				end
 
 				def failure_message

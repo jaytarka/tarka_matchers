@@ -1,5 +1,4 @@
 require 'tarka_matchers/helpers/matcher/expect_capture'
-
 module TarkaMatchers
 	module Matchers
 		module Matcher	
@@ -15,6 +14,7 @@ module TarkaMatchers
 
 				def matches? actual
 					active_matcher = self
+					# @actual = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual, active_matcher).supports_block_extensions?
 					rspec_matchers = ::RSpec::Matchers
 					real_expect = rspec_matchers.instance_method :expect
 					rspec_matchers.send :remove_method, :expect
@@ -24,7 +24,8 @@ module TarkaMatchers
 
 					rspec_matchers.send :remove_method, :expect
 					rspec_matchers.send(:define_method, :expect, real_expect)
-					
+					ap @actual_matcher	
+					ap @actual_mathcer.class
 					@exist = true
 					begin
 						@actual = @actual_matcher.supports_block_expectations?
@@ -35,11 +36,11 @@ module TarkaMatchers
 				end
 
 				def description	
-					"support block expectations."
+					"utilize a matcher, '#{@actual_matcher.class}', that supports block expectations."
 				end
 				
 					def report
-					message = "Expected the matcher to contain the method supports_block_expectations? method and for it to return to true. "
+					message = "Expected the matcher '#{@actual_matcher.class}' to contain the method supports_block_expectations? method and for it to return 'true'. "
 					@exist ? message << "Instead it returned '#{@actual}'." : message << "The supports_block_expectations? method does not exist inside the matcher. (Hint: check spelling)"
 					message
 				end

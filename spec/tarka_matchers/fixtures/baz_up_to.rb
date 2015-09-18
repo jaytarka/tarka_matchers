@@ -9,6 +9,7 @@ class BazUpTo
 
 	def matches? actual
 		@actual = actual
+		actual.call if @actual.class == Proc
 		@actual == @expected
 	end
 
