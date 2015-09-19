@@ -13,7 +13,7 @@ class FooUpTo
 	end
 
 	def description
-		"faz around."
+		"faz around. Actual: '#{@actual}', Expected: '#{@expected}'"
 	end
 
 	def report

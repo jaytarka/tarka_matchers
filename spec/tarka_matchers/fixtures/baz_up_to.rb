@@ -8,13 +8,12 @@ class BazUpTo
 	end
 
 	def matches? actual
-		@actual = actual
-		actual.call if @actual.class == Proc
+		actual.class == Proc ? @actual = actual.call : @actual = actual
 		@actual == @expected
 	end
 
 	def description
-		"baz around."
+		"baz around. Actual: '#{@actual}', Expected: '#{@expected}'"
 	end
 
 	def report

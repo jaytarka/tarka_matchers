@@ -13,7 +13,6 @@ describe TarkaMatchers::Matchers::Matcher do
 		context 'when target_matcher accepts block expectations' do
 			subject{ expect{ expect{ 9833 }.to baz_up_to 458 }.to support_block_expectations } 
 			specify{ expect{ subject }.to pass }
-			specify{ expect{ subject }.to have_a_description_of 'helllo' }
 		end
 
 		context 'when target_matcher explicitly does not accept block expectations' do

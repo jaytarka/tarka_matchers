@@ -12,7 +12,7 @@ module TarkaMatchers
 				end
 
 				def matches? actual
-					@actual_matcher = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual)
+					@actual_matcher = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual)[1]
 					@exist = true
 					begin
 						@actual = @actual_matcher.supports_block_expectations?
