@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'tarka_matchers/matcher_matchers'
+require 'tarka_matchers/expectation_matchers'
 
 describe Object do
 	subject { Object }

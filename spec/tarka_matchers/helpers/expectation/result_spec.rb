@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'tarka_matchers/helpers/matcher/result'
+require 'tarka_matchers/helpers/expectation/result'
 
-describe TarkaMatchers::Helpers::Matcher::Result do
-	let(:main){ TarkaMatchers::Helpers::Matcher::Result }
+describe TarkaMatchers::Helpers::Expectation::Result do
+	let(:main){ TarkaMatchers::Helpers::Expectation::Result }
 	subject{ main }
 	it{ is_expected.to respond_to :pass? }
 	

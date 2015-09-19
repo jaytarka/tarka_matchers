@@ -1,6 +1,6 @@
 module TarkaMatchers
 	module Helpers
-		module Matcher
+		module Expectation
 			class ExpectCapture
 				def initialize target, block_target
 					target == :undefined ? @target = block_target.call : @target = target

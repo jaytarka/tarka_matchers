@@ -1,6 +1,6 @@
 module TarkaMatchers
 	module Helpers
-		module Matcher
+		module Expectation
 			class Result
 				def self.pass? &b
 					error = true

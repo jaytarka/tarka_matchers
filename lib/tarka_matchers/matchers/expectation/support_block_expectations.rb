@@ -1,7 +1,7 @@
-require 'tarka_matchers/helpers/matcher/expect_capture'
+require 'tarka_matchers/helpers/expectation/expect_capture'
 module TarkaMatchers
 	module Matchers
-		module Matcher	
+		module Expectation	
 			def	support_block_expectations
 				SupportBlockExpectations.new
 			end
@@ -12,7 +12,7 @@ module TarkaMatchers
 				end
 
 				def matches? actual
-					@actual_matcher = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual)[1]
+					@actual_matcher = TarkaMatchers::Helpers::Expectation::ExpectCapture.capture(actual)[1]
 					@exist = true
 					begin
 						@actual = @actual_matcher.supports_block_expectations?

@@ -1,7 +1,7 @@
-require 'tarka_matchers/helpers/matcher/expect_capture'
+require 'tarka_matchers/helpers/expectation/expect_capture'
 module TarkaMatchers
 	module Matchers
-		module Matcher	
+		module Expectation
 			def	have_a_description_of expected			
 				HaveADescriptionOf.new expected
 			end
@@ -16,7 +16,7 @@ module TarkaMatchers
 				end
 
 				def matches? actual
-					captured = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual)
+					captured = TarkaMatchers::Helpers::Expectation::ExpectCapture.capture(actual)
 					@actual_matcher = captured[1]
 					@actual = @actual_matcher.description.prepend captured[0]
 					@actual == @expected
