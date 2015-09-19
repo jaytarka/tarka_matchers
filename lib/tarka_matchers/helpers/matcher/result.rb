@@ -1,7 +1,7 @@
 module TarkaMatchers
 	module Helpers
 		module Matcher
-			class Main
+			class Result
 				def self.pass? &b
 					error = true
 					begin

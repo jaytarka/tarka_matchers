@@ -1,4 +1,4 @@
-require 'tarka_matchers/helpers/matcher/main'
+require 'tarka_matchers/helpers/matcher/result'
 module TarkaMatchers
 	module Matchers
 		module Matcher
@@ -10,7 +10,7 @@ module TarkaMatchers
 					def supports_block_expectations?; true; end
 
 					def matches? expectation
-						@actual = TarkaMatchers::Helpers::Matcher::Main.pass?{ expectation.call }
+						@actual = TarkaMatchers::Helpers::Matcher::Result.pass?{ expectation.call }
 						@actual != true
 					end
 
