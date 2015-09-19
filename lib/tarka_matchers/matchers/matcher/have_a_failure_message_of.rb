@@ -1,4 +1,4 @@
-require 'tarka_matchers/helpers/matcher/main'
+require 'tarka_matchers/helpers/matcher/expect_capture'
 module TarkaMatchers
 	module Matchers
 		module Matcher
@@ -22,15 +22,15 @@ module TarkaMatchers
 				end
 
 				def description	
-					"fail."
+					"utilize a matcher, '#{@actual_matcher.class}', that has a failure message of '#{@expected}'."
 				end
-			
+				
 				def report
-					"Spec result: #{@actual}"
+					"The matcher has a failure messsage when negated of '#{@actual}'."
 				end
 
 				def failure_message
-					"#{description} #{report}"
+					"failed to #{description} #{report}"
 				end
 
 				def failure_message_when_negated

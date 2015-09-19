@@ -11,8 +11,7 @@ describe TarkaMatchers::Matchers::Matcher do
 
 	describe '.have_a_failure_message_when_negated_of' do
 		context 'when target_matcher is foo_up_to' do
-			subject{ expect{ expect(actual).to foo_up_to expected }.to have_a_failure_messaged_when_negated_of(failure_message_when_negated) } 
-
+			subject{ expect{ expect(actual).to foo_up_to expected }.to have_a_failure_message_when_negated_of(failure_message_when_negated) } 
 			context 'when failure_message_when_negated is completely wrong' do
 				let(:failure_message_when_negated){ 'whwhhwhwhw' }
 				specify{ expect{ subject }.to fail }
@@ -22,7 +21,7 @@ describe TarkaMatchers::Matchers::Matcher do
 				specify{ expect{ subject }.to fail }
 			end
 			context 'when failure_message_when_negated is correct' do
-				let(:failure_message_when_negated){ "faz around. Expected #{expected}, got #{actual}." }
+				let(:failure_message_when_negated){ "foo around. Expected #{expected}, got #{actual}." }
 				specify{ expect{ subject }.to pass }
 			end
 		end
@@ -39,7 +38,7 @@ describe TarkaMatchers::Matchers::Matcher do
 				specify{ expect{ subject }.to fail }
 			end
 			context 'when failure_message_when_negated is correct' do
-				let(:failure_message_when_negated){ "baz around. Expected #{expected}, got #{actual}." }
+				let(:failure_message_when_negated){ "boo around. Expected #{expected}, got #{actual}." }
 				specify{ expect{ subject }.to pass }
 			end
 		end

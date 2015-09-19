@@ -33,7 +33,7 @@ module TarkaMatchers
 				end
 
 				def failure_message
-					"#{description} #{report}"
+					"failed to #{description} #{report}"
 				end
 
 				def failure_message_when_negated

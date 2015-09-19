@@ -17,20 +17,21 @@ module TarkaMatchers
 
 				def matches? actual
 					@actual_matcher = TarkaMatchers::Helpers::Matcher::ExpectCapture.capture(actual)[1]
-					@actual = @actual_matcher.failure_message_when_negated
+					@actual = @actual_matcher.failure_message#_when_negated
+		#			ap @actual
 					@actual == @expected
 				end
 
 				def description	
-					"fail."
+					"utilize a matcher, '#{@actual_matcher.class}', that has a failure message when negated of '#{@expected}'."
 				end
-			
+				
 				def report
-					"Spec result: #{@actual}"
+					"The matcher has a failure message when negated of '#{@actual}'."
 				end
 
 				def failure_message
-					"#{description} #{report}"
+					"failed to #{description} #{report}"
 				end
 
 				def failure_message_when_negated
