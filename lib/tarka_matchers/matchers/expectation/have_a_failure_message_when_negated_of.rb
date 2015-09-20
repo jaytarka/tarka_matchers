@@ -17,8 +17,7 @@ module TarkaMatchers
 
 				def matches? actual
 					@actual_matcher = TarkaMatchers::Helpers::Expectation::ExpectCapture.capture(actual)[1]
-					@actual = @actual_matcher.failure_message#_when_negated
-		#			ap @actual
+					@actual = @actual_matcher.failure_message_when_negated
 					@actual == @expected
 				end
 

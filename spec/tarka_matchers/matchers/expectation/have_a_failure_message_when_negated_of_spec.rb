@@ -1,8 +1,4 @@
 require 'spec_helper'
-require 'tarka_matchers/matchers/expectation/have_a_failure_message_when_negated_of'
-require 'tarka_matchers/matchers/expectation/support_block_expectations'
-require 'tarka_matchers/fixtures/foo_up_to'
-require 'tarka_matchers/fixtures/baz_up_to'
 
 describe TarkaMatchers::Matchers::Expectation do
 	it{ is_expected.to respond_to :have_a_failure_message_when_negated_of }
@@ -21,7 +17,7 @@ describe TarkaMatchers::Matchers::Expectation do
 				specify{ expect{ subject }.to fail }
 			end
 			context 'when failure_message_when_negated is correct' do
-				let(:failure_message_when_negated){ "foo around. Expected #{expected}, got #{actual}." }
+				let(:failure_message_when_negated){ "fiz around. Expected #{expected}, got #{actual}." }
 				specify{ expect{ subject }.to pass }
 			end
 		end
@@ -38,7 +34,7 @@ describe TarkaMatchers::Matchers::Expectation do
 				specify{ expect{ subject }.to fail }
 			end
 			context 'when failure_message_when_negated is correct' do
-				let(:failure_message_when_negated){ "boo around. Expected #{expected}, got #{actual}." }
+				let(:failure_message_when_negated){ "biz around. Expected #{expected}, got #{actual}." }
 				specify{ expect{ subject }.to pass }
 			end
 		end

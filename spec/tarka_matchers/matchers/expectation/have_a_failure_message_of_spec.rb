@@ -1,8 +1,4 @@
 require 'spec_helper'
-require 'tarka_matchers/matchers/expectation/have_a_failure_message_of'
-require 'tarka_matchers/matchers/expectation/support_block_expectations'
-require 'tarka_matchers/fixtures/foo_up_to'
-require 'tarka_matchers/fixtures/baz_up_to'
 
 describe TarkaMatchers::Matchers::Expectation do
 	it{ is_expected.to respond_to :have_a_failure_message_of }

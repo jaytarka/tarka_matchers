@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'tarka_matchers/matchers/expectation/fail'
 
 describe TarkaMatchers::Matchers::Expectation do
 	let(:matcher){ subject }
