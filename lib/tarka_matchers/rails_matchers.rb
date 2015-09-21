@@ -1,1 +1,1 @@
-require 'tarka_matchers/matchers/rails/action_dispatch/be_named_as'
+require 'tarka_matchers/action_dispatch_matchers'
