@@ -1,15 +1,32 @@
-module TarkaMatchers
-	module Matchers
-		module ActionDispatch
-			class BeNamedAsMatcher
-				def initialize route_name
-					@route_name = route_name
-				end
+#module TarkaMatchers
+#	module Matchers
+#		module Rails
+#			module ActionDispatchz
+#				def yun
+#					puts 'hello'
+#				end
+#
+#				def be_named_as expected
+#					BeNamedAs.new expected
+#				end
+#
+#				class BeNamedAs
+#					def initialize expected
+#						@expected = expected
+#					end
+#
+#					def description
+#						"be named as #{@expected}"
+#					end
+#				end
+#			end
+#		end
+#	end
+#end
+#
 
-				def description
-					"be named as #{@route_name}"
-				end
-			end
-		end
+module ActionDispatch
+	def zupp
+		puts 'rawr im tazzy!'
 	end
 end
