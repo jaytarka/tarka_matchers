@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'tarka_matchers/matchers/rails/action_dispatch/be_named_as'
+require 'tarka_matchers/action_dispatch_matchers'
 
-describe ActionDispatch do
-	it{ is_expected.to respond_to :zupp } 
+describe TarkaMatchers::Matchers::Rails::ActionDispatch do
+	it{ is_expected.to respond_to :be_named_as } 
 end
