@@ -22,11 +22,11 @@ module TarkaMatchers
 				end
 
 				def description	
-					"utilize a matcher, '#{@actual_matcher.class}', that has a failure message when negated of '#{@expected}'."
+					"utilize a matcher, '#{@actual_matcher.class}', that has a failure message when negated of:\n\n#{@expected}"
 				end
 				
 				def report
-					"The matcher has a failure message when negated of '#{@actual}'."
+					"\n\nThe matcher has a failure message when negated of:\n\n#{@actual}"
 				end
 
 				def failure_message
