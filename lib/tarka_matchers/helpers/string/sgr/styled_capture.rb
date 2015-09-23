@@ -8,7 +8,10 @@ module TarkaMatchers
 				CODE = /\\e\[\K\d{1,3}(?=m)/
 				
 				def self.indexes_of string, regex
-					string.to_enum(:scan,regex).map{ |m,| [$`.size, m, $~.begin(0)] }
+					string.to_enum(:scan,regex).map do |v,|
+						si = $`.size
+						[si, v, si + v.length - 1]
+					end
 				end
 
 				def self.capture string, number
