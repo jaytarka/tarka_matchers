@@ -11,7 +11,7 @@ module TarkaMatchers
 				longest_length = longest.length
 				expected = expected.split('')
 				actual = actual.split('')
-				incorrect = 0
+				correct = 0
 
 				longest_length.times do |i|
 					e = expected[i]
@@ -25,12 +25,13 @@ module TarkaMatchers
 					elsif e != a
 						actual_line << "#{red}#{a}#{reset}"
 					elsif e == a
-						incorrect += 1
+						correct += 1
 						actual_line << "#{green}#{a}#{reset}"
 					end
 				end
-				correct = ((expected_length - incorrect)/(expected_length)) * 100
-				"#{expected_line}#{actual_line}#{reset}\e[31m - #{correct}% identical#{reset}" 
+
+				identical = (correct.to_f/longest_length) * 100
+				"#{expected_line}#{actual_line}#{reset}\e[31m - #{identical}% identical#{reset}" 
 			end
 			
 			def self.reset
