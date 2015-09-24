@@ -30,6 +30,12 @@ describe TarkaMatchers::Formatters::Difference do
 			it{ is_expected.to include '75.0%' }
 		end
 
+		context 'when actual is 23.077% identical to expected' do
+			let(:expected){ 'hxxhhxhiaixhhhhxhxisissssshas    f    f' }
+			let(:actual){   'hfixnxniaioanioafiasnsshhhhshhhshhshhf' }
+			it{ is_expected.to include '23.077%' }
+		end
+
 		context 'when actual is 100% identical to expected' do
 			let(:expected){ ' b x' }
 			let(:actual){ ' b x' }

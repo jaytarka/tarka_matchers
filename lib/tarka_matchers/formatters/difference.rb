@@ -30,7 +30,7 @@ module TarkaMatchers
 					end
 				end
 
-				identical = (correct.to_f/longest_length) * 100
+				identical = ((correct.to_f/longest_length) * 100).round 3
 				"#{expected_line}#{actual_line}#{reset}\e[31m - #{identical}% identical#{reset}" 
 			end
 			
