@@ -5,7 +5,7 @@ module TarkaMatchers
 				expected_line = "\e[32mExpected: #{green}#{expected}#{reset}"
 				expected_length = expected.length
 				actual_length = actual.length
-				actual_line = "\n\e[31m  Actual: "
+				actual_line = "\n#{reset}\e[31m  Actual: "
 
 				longest = [expected,actual].sort_by(&:length).last 
 				longest_length = longest.length
@@ -23,10 +23,10 @@ module TarkaMatchers
 					elsif actual_length <= i
 						actual_line << "#{red_block}"
 					elsif e != a
-						actual_line << "#{red}#{a}#{reset}"
+						actual_line << "#{red}#{a}"
 					elsif e == a
 						correct += 1
-						actual_line << "#{green}#{a}#{reset}"
+						actual_line << "#{green}#{a}"
 					end
 				end
 
@@ -47,7 +47,7 @@ module TarkaMatchers
 			end
 		
 			def self.red_block
-				"\e[41m\e[31mX#{reset}"
+				"\e[41m\e[31mX"
 			end
 
 			def self.green
