@@ -4,6 +4,7 @@ require 'tarka_matchers/expectation_matchers'
 require 'rspec/given'
 require 'faker'
 require 'awesome_print'
+require 'the_great_escape'
 
 require 'support/fixtures/expectations/baz_up_to'
 require 'support/fixtures/expectations/foo_up_to'

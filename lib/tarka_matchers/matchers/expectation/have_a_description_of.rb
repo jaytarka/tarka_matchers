@@ -23,11 +23,11 @@ module TarkaMatchers
 				end
 
 				def description	
-					"utilize a matcher, '#{@actual_matcher.class}', that has a description of '#{@expected}'."
+					"utilize a matcher, '#{@actual_matcher.class}', that has a description of:\n#{@expected}"
 				end
 				
 				def report
-					"The matcher has a description of '#{@actual}'."
+					" Got:\n#{@actual}"
 				end
 
 				def failure_message

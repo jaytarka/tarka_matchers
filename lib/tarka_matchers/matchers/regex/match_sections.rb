@@ -7,6 +7,7 @@ module TarkaMatchers
 			end
 
 			class MatchSections
+				attr_reader :failure_message,:description
 				def initialize expected
 					@expected = expected
 				end
@@ -18,65 +19,67 @@ module TarkaMatchers
 
 				def matches? actual
 					@actual = actual
+					pass_with_message
+					fail_with_message
+
 					integers = @expected.all?{ |v| v.is_a?(Integer) } 
 					strings = @expected.all?{ |v| v.is_a?(String) } 
 					
 					if integers || strings
-						indexes = Helpers::SGR::StyledCapture.indexes_of @string, @actual
+						@matches = indexes = Helpers::SGR::StyledCapture.indexes_of(@string, @actual)
 						if indexes.empty?
-							false
+							fail_with_message
 						else
 							if strings
-								true
+								extracts = @matches.map{ |v| v[1] }.flatten
+								pass_with_message
 							else
+								indexes = @matches.map{ |v| [v[0], v[2]] }.flatten
 								if @expected.count.odd?
-									@odd = true
-									false
-								elsif @expected == indexes.map{ |v| [v[0], v[2]] }.flatten
-									true
+									fail_with_message "The indexes provided, '#{@expected}', are of an odd number. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
+								elsif @expected.count < indexes.count
+									fail_with_message "The index pairs provided, '#{@expected}', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
+								elsif @expected.count > indexes.count
+									fail_with_message "The index pairs provided, '#{@expected}', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
+								elsif @expected == indexes
+									pass_with_message
 								end
 							end
 						end
 					else
-						@unpure = true
-						false
-					end
-				end
-				
-				def description
-					"contain the pattern, '#{@actual}' at positions #{indexes_list}" 
-				end
-
-				def failure_message
-					if @unpure
- 						"Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected."
-					elsif @odd
-						"The indexes provided, '#{@expected}', are of an odd number. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
-					else
-						"The string, '#{@string}', does not contain the pattern, '#{@actual}'."
+						fail_with_message "Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected."	
 					end
 				end
 
-					def indexes_list
-						list = ''
-						li = @expected.length
-						@expected.each_with_index do |v,i|
-							if i.even?
-								divider = ' to '
-							else
-								case i
-								when li - 3
-									divider = ' and '
-								when li - 1
-									divider = ''
-								else
-									divider = ','
-								end
-							end
-							list << "'#{v}'#{divider}"
+				def pass_with_message message="contain the pattern, '#{@actual}' at positions #{indexes_list}." 
+					@description = message
+					true
+				end	
+
+				def fail_with_message message="The string, '#{@string}', does not contain the pattern, '#{@actual}'."
+					@failure_message = message
+					false
+				end
+
+				def report
+					"\nThe regex matched:\n#{@string}\n"
+				end
+
+				def indexes_list
+					list = ''
+					li = @expected.length
+					@expected.each_with_index do |v,i|
+						if i.even?
+							divider = ' to '
+						elsif i == li - 3
+							divider = ' and '
+						elsif i != li - 1
+							divider = ','
 						end
-						list
+						list << "'#{v}'#{divider}"
 					end
+					list
+				end
 			end
 		end
 	end
