@@ -1,3 +1,4 @@
+require 'tarka_matchers/formatters/difference'
 require 'tarka_matchers/helpers/expectation/expect_capture'
 module TarkaMatchers
 	module Matchers
@@ -23,19 +24,15 @@ module TarkaMatchers
 				end
 
 				def description	
-					"utilize a matcher, '#{@actual_matcher.class}', that has a description of:\n#{@expected}"
+					"utilize a matcher that has a description of: '#{@expected}'"
 				end
-				
-				def report
-					" Got:\n#{@actual}"
-				end
-
+			
 				def failure_message
-					"#{description} #{report}"
+					"The matcher, '#{@actual_matcher.class}', does not have the expected description: #{TarkaMatchers::Formatters::Difference.difference(@actual,@expected)}"
 				end
 
 				def failure_message_when_negated
-					"#{description} #{report}"
+					"#{description}"
 				end
 			end
 		end
