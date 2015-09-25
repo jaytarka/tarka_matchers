@@ -3,8 +3,29 @@ module TarkaMatchers
 	module Formatters
 		class Selected
 			include Styles
-			def self.selected string, selected
-				"Original:"
+			def self.selected original, selected
+				indexes = []
+				selected.each_slice(2){ |si,ei| indexes << (si..ei).to_a }
+				indexes.flatten!
+
+				original_line = "#{GREEN_F}Original: #{BLACK_ON_GREEN}#{original}#{RESET}"
+				selected_line = "\n#{RESET}#{RED_F}Selected: "
+				
+				selects = 0
+				original.split('').each_with_index do |v,i|
+					if indexes.include? i
+						selects += 1
+						selected_line << "#{BLACK_ON_GREEN}#{v}"
+					else
+						selected_line << "#{RED_BLOCK}"
+					end
+				end
+
+				ap original.length
+				ap selects
+
+				matched = ((selects.to_f/original.length) * 100).round 3
+				"#{original_line}#{selected_line}#{RESET}#{RED_F} - #{matched}% matched#{RESET}" 
 			end
 		end
 	end
