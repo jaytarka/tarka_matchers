@@ -21,9 +21,6 @@ module TarkaMatchers
 					end
 				end
 
-				ap original.length
-				ap selects
-
 				matched = ((selects.to_f/original.length) * 100).round 3
 				"#{original_line}#{selected_line}#{RESET}#{RED_F} - #{matched}% matched#{RESET}" 
 			end

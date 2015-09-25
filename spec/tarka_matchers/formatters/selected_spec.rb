@@ -20,9 +20,9 @@ describe TarkaMatchers::Formatters::Selected do
 			it{ is_expected.to include '50.0%' }		
 		end
 
-		context 'when selected is 50%' do
-			let(:selected){ [0,9] }
-			it{ is_expected.to include '50.0%' }		
+		context 'when selected is 75%' do
+			let(:selected){ [2,6,8,17] }
+			it{ is_expected.to include '75.0%' }		
 		end
 
 		context 'when selected is 75.0%' do	
@@ -30,8 +30,13 @@ describe TarkaMatchers::Formatters::Selected do
 			it{ is_expected.to include '75.0%' }
 		end
 
+		context 'when selected is 75.0%' do	
+			let(:selected){ [0,2,5,9,11,15] }
+			it{ is_expected.to include '65.0%' }
+		end
+
 		context 'when selected is 100%' do
-			let(:selected){ [0,20] }
+			let(:selected){ [0,19] }
 			it{ is_expected.to include '100.0%' }		
 		end
 	end
