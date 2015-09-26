@@ -2,7 +2,9 @@ module TarkaMatchers
 	module Formatters
 		module Styles		
 			RED_F = "\e[31m"
+			YELLOW_F = "\e[33m"
 			GREEN_F = "\e[32m"
+			L_GREEN_F = "\e[92m"
 			RESET =	"\e[0m"
 			WHITE_ON_RED = "\e[41m\e[37m"
 			WHITE_BLOCK = "\e[47m\e[37mX#{RESET}"
