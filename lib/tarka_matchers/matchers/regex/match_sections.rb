@@ -1,4 +1,5 @@
 require 'tarka_matchers/helpers/string/sgr/styled_capture'
+require 'tarka_matchers/formatters/selected'
 module TarkaMatchers
 	module Matchers
 		module Regex
@@ -19,14 +20,13 @@ module TarkaMatchers
 
 				def matches? actual
 					@actual = actual
-					pass_with_message
-					fail_with_message
-
 					integers = @expected.all?{ |v| v.is_a?(Integer) } 
 					strings = @expected.all?{ |v| v.is_a?(String) } 
 					
 					if integers || strings
 						@matches = indexes = Helpers::SGR::StyledCapture.indexes_of(@string, @actual)
+						pass_with_message
+						fail_with_message
 						if indexes.empty?
 							fail_with_message
 						else
@@ -35,6 +35,7 @@ module TarkaMatchers
 								pass_with_message
 							else
 								indexes = @matches.map{ |v| [v[0], v[2]] }.flatten
+								ap 'got to here baby'
 								if @expected.count.odd?
 									fail_with_message "The indexes provided, '#{@expected}', are of an odd number. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
 								elsif @expected.count < indexes.count
@@ -43,6 +44,8 @@ module TarkaMatchers
 									fail_with_message "The index pairs provided, '#{@expected}', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
 								elsif @expected == indexes
 									pass_with_message
+								else
+									fail_with_message
 								end
 							end
 						end
@@ -56,13 +59,9 @@ module TarkaMatchers
 					true
 				end	
 
-				def fail_with_message message="The string, '#{@string}', does not contain the pattern, '#{@actual}'."
+				def fail_with_message message="The string, '#{@string}', does not contain the pattern, '#{@actual}':#{TarkaMatchers::Formatters::Selected.selected(@string, @matches.map{ |v| [v[0], v[2]] }.flatten)}"
 					@failure_message = message
 					false
-				end
-
-				def report
-					"\nThe regex matched:\n#{@string}\n"
 				end
 
 				def indexes_list

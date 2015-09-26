@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+require 'stringio'
+puts Dir.pwd
+require 'tarka_matchers/action_dispatch_matchers'
+terminal = ENV['TERM']
+file = StringIO.new('module TarkaExtensions and stuff')
+IO.foreach("lib/tarka_matchers/helpers/string/sgr_sequences/#{terminal}.txt"){ |x| file << x }
+IO.write file
+
+puts "Created config file in gem root: #{GREEN_F}#{Dir.pwd}/tarka_matchers_config.rb#{RESET}, with #{GREEN_F}#{terminal}#{RESET} SGR settings. If your SGR expectations are behaving strangely, edit the TarkaMatchers::Config::SGR_CODES array, found in #{GREEN_F}tarka_matchers_config.r#{RESET}. For more information into SGR codes visit: https://en.wikipedia.org/wiki/ANSI_escape_code"

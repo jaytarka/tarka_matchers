@@ -21,7 +21,7 @@ describe TarkaMatchers::Matchers::Regex do
 			context 'when string doesnt contain the pattern' do
 				let(:string){ "helsome" }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The string, '#{string}', does not contain the pattern, '#{actual}'." }
+				it{ is_expected.to have_a_failure_message_of "The string, '#{string}', does not contain the pattern, '#{actual}':#{TarkaMatchers::Formatters::Selected.selected(string, expected)}" }
 			end
 
 			context 'when expected is has an odd number of indexes' do
@@ -62,7 +62,7 @@ describe TarkaMatchers::Matchers::Regex do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 				let(:expected){ [6,13,32,39,44,51] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{actual}' at positions '6' to '13','32' to '39' and '47' to '54'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{actual}' at positions '6' to '13','32' to '39' and '44' to '51'." }
 			end
 
 			context 'when expected is correct content' do

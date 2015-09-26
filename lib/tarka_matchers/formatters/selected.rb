@@ -4,6 +4,9 @@ module TarkaMatchers
 		class Selected
 			include Styles
 			def self.selected original, selected
+				ap original
+				ap selected
+
 				indexes = []
 				selected.each_slice(2){ |si,ei| indexes << (si..ei).to_a }
 				indexes.flatten!
@@ -22,7 +25,7 @@ module TarkaMatchers
 				end
 
 				matched = ((selects.to_f/original.length) * 100).round 3
-				"#{original_line}#{selected_line}#{RESET}#{RED_F} - #{matched}% matched#{RESET}" 
+				"\n\n#{original_line}#{selected_line}#{RESET}#{RED_F} - #{matched}% matched#{RESET}\n " 
 			end
 		end
 	end
