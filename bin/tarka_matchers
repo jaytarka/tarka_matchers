@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
-def install
+def install argv
 	require 'tarka_matchers/commands/install'
-	TarkaMatchers::Commands::Install.install
+	TarkaMatchers::Commands::Install.install argv.drop(1)
 end
 case ARGV[0]
 when :install
-	install
+	install ARGV
 else
-	install
+	install ARGV
 end

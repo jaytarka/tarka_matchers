@@ -1,4 +1,5 @@
 /.bundle/
+tarka_matchers.config.rb
 *.sw*
 /.yardoc
 /Gemfile.lock
