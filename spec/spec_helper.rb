@@ -9,3 +9,5 @@ require 'the_great_escape'
 require 'support/fixtures/expectations/baz_up_to'
 require 'support/fixtures/expectations/foo_up_to'
 require 'support/fixtures/expectations/rawrg_up_to'
+
+require 'support/fixtures/classes/baz'
