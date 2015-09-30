@@ -3,7 +3,7 @@ module TarkaMatchers
 	module Matchers
 		module Class
 			def	have_an_instance_variable_of instance_name
-				HaveAnInstaceVariableOf.new instance_name
+				HaveAnInstanceVariableOf.new instance_name
 			end
 
 			class HaveAnInstanceVariableOf
@@ -13,6 +13,7 @@ module TarkaMatchers
 
 				def that_equals expected
 					@expected = expected
+					self
 				end
 				
 				def matches? actual

@@ -8,6 +8,13 @@ describe TarkaMatchers::Matchers::Class do
 
 		context 'when class is baz' do
 			let(:actual){ Baz }
+			let(:instance_variable){ :@bazzy }
+			
+			context "when expected is 'wooooop!'" do
+				let(:expected){ 'wooooop!' }
+
+				it{ is_expected.to pass }
+			end
 		end
 	end
 end	
