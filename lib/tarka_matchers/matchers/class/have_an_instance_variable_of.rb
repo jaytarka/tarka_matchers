@@ -1,4 +1,5 @@
 require 'tarka_matchers/helpers/expectation/result'
+require 'tarka_matchers/formatters/difference'
 module TarkaMatchers
 	module Matchers
 		module Class
@@ -22,15 +23,15 @@ module TarkaMatchers
 				end
 
 				def description
-					"contain an instance variable called, '#{@instance_name}', that equals '#{@actual}'."
+					"contain an instance variable called, '#{@instance_name}', that equals '#{@expected}'."
 				end
 
 				def failure_message
-					"failed to #{description}"
+					"failed to #{description}\n#{TarkaMatchers::Formatters::Difference.difference(@expected,@actual)}"
 				end
 
 				def failure_message_when_negated
-					description
+					"did #{description}"
 				end
 			end
 		end
