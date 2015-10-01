@@ -18,8 +18,6 @@ module TarkaMatchers
 					true
 				end
 
-
-
 				def matches? actual
 					@actual_matcher = TarkaMatchers::Helpers::Expectation::ExpectCapture.capture(actual)[1]
 					@actual = clean!(escape(@actual_matcher.failure_message))

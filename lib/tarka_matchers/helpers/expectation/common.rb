@@ -3,8 +3,8 @@ module TarkaMatchers
 	module Helpers
 		module Expectation
 			module Common
-				def keep_colors
-					@keep_colors = true
+				def keep_sgrs
+					@keep_sgrs = true
 					self
 				end
 
@@ -14,8 +14,9 @@ module TarkaMatchers
 				end
 
 				def clean! string
-					string.gsub!(TarkaMatchers::Helpers::Expectation::Regexes::SGR,'') unless @keep_colors
+					string.gsub!(TarkaMatchers::Helpers::Expectation::Regexes::SGR,'') unless @keep_sgrs
 					string.gsub!(TarkaMatchers::Helpers::Expectation::Regexes::NEWLINE,'') unless @keep_newlines
+					string
 				end
 			end
 		end

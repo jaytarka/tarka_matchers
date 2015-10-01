@@ -1,4 +1,6 @@
+require 'tarka_matchers/formatters/difference'
 require 'tarka_matchers/helpers/expectation/expect_capture'
+require 'tarka_matchers/helpers/expectation/common'
 module TarkaMatchers
 	module Matchers
 		module Expectation
@@ -7,6 +9,7 @@ module TarkaMatchers
 			end
 
 			class HaveAFailureMessageWhenNegatedOf
+				include TarkaMatchers::Helpers::Expectation::Common
 				def initialize expected
 					@expected = expected
 				end
@@ -17,24 +20,20 @@ module TarkaMatchers
 
 				def matches? actual
 					@actual_matcher = TarkaMatchers::Helpers::Expectation::ExpectCapture.capture(actual)[1]
-					@actual = @actual_matcher.failure_message_when_negated
+					@actual = clean!(escape(@actual_matcher.failure_message_when_negated))
 					@actual == @expected
 				end
 
-				def description	
-					"utilize a matcher, '#{@actual_matcher.class}', that has a failure message when negated of:\n\n#{@expected}"
-				end
-				
-				def report
-					"\n\nThe matcher has a failure message when negated of:\n\n#{@actual}"
+				def description		
+					"utilize a matcher that has a failure message when negated of: '#{@expected}'"
 				end
 
 				def failure_message
-					"failed to #{description} #{report}"
+					"The matcher, '#{@actual_matcher.class}', does not have the expected failure message when negated: #{TarkaMatchers::Formatters::Difference.difference(@expected,@actual)}"
 				end
 
 				def failure_message_when_negated
-					"#{description} #{report}"
+					"#{description}"
 				end
 			end
 		end
