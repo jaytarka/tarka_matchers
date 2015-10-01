@@ -21,40 +21,40 @@ describe TarkaMatchers::Matchers::Regex do
 			context 'when string doesnt contain the pattern' do
 				let(:string){ "helsome" }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The string, '#{string}', does not contain the pattern, '#{actual}':" }
+				it{ is_expected.to have_a_failure_message_of "The string, 'helsome', does not contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)':Original: helsomeSelected: XXXXXXX - 0.0% matched" }
 			end
 
 			context 'when expected is has an odd number of indexes' do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 				let(:expected){ [6,13,32] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The indexes provided, '#{expected}', are of an odd number. Please provide the start and end index pairs of all sections of '#{string}' that should be selected by '#{actual}'." }
+				it{ is_expected.to have_a_failure_message_of "The indexes provided, '[6, 13, 32]', are of an odd number. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)'." }
 			end
 
 			context 'when expected contains less index pairs than matches' do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 				let(:expected){ [6,13] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '#{expected}', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{string}' that should be selected by '#{actual}'." }
+				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '[6, 13]', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)'."}
 			end
 
 			context 'when expected contains more index pairs than matches' do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 				let(:expected){ [6,13,32,46,54,122] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '#{expected}', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{string}' that should be selected by '#{actual}'." }
+				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '[6, 13, 32, 46, 54, 122]', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)'." }
 			end
 
 			context 'when expected is one correct index pair' do
 				let(:string){ escape "hello [432yuza wowowmely\e[35awesome" }
 				let(:expected){ [6,13] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{actual}' at positions '6' to '13'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)' at positions '6' to '13'." }
 			end
 
 			context 'when expected is two correct index pairs' do
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{actual}' at positions '6' to '13' and '32' to '39'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)' at positions '6' to '13' and '32' to '39'." }
 			end
 
 			context 'when expected is three correct index pairs' do
@@ -62,7 +62,7 @@ describe TarkaMatchers::Matchers::Regex do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 				let(:expected){ [6,13,32,39,44,51] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{actual}' at positions '6' to '13','32' to '39' and '44' to '51'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)' at positions '6' to '13','32' to '39' and '44' to '51'." }
 			end
 
 			context 'when expected is correct content' do

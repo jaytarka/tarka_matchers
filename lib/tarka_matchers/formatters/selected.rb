@@ -22,7 +22,7 @@ module TarkaMatchers
 				end
 
 				matched = ((selects.to_f/original.length) * 100).round 3
-				"\n\n#{original_line}#{selected_line}#{RESET}#{RED_F} - #{matched}% matched#{RESET}\n " 
+				"\n\n#{original_line}#{selected_line}#{RESET}#{RED_F} - #{matched}% matched#{RESET}" 
 			end
 		end
 	end
