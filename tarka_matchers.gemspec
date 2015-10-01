@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jaytarka@hotmail.com"]
 
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com' to prevent pushes to rubygems.org, or delete to allow pushes to any server."
+    spec.metadata['allowed_push_host'] = "http://rubygems.org"
   end
 
   spec.summary       = 'A set of rspec matchers'
