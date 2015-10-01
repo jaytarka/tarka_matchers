@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'A set of rspec matchers'
   spec.description   = 'A (very) small set of rspec matchers that make it easier to write one-liner isolated routing specs. I hope to add many more routes in the future.'
-  spec.homepage      = 'TODO: Put your gem\'s website or public repo URL here.'
+  spec.homepage      = 'https://github.com/jaytarka/tarka_matchers'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(spec)/}) }
