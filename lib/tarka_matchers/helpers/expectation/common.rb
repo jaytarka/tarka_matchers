@@ -1,8 +1,9 @@
-require 'tarka_matchers/helpers/expectation/regexes'
 module TarkaMatchers
 	module Helpers
 		module Expectation
 			module Common
+				SGR = /\\e\[(?:10[0-7]|0{1,2}\d|0{0,1}\d\d|\d)m/
+				NEWLINE = /\\n/
 				def keep_sgrs
 					@keep_sgrs = true
 					self
@@ -14,8 +15,8 @@ module TarkaMatchers
 				end
 
 				def clean! string
-					string.gsub!(TarkaMatchers::Helpers::Expectation::Regexes::SGR,'') unless @keep_sgrs
-					string.gsub!(TarkaMatchers::Helpers::Expectation::Regexes::NEWLINE,'') unless @keep_newlines
+					string.gsub!(SGR,'') unless @keep_sgrs
+					string.gsub!(NEWLINE,'') unless @keep_newlines
 					string
 				end
 			end

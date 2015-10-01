@@ -1,5 +1,5 @@
 require 'tarka_matchers/helpers/string/sgr/styled_capture'
-describe TarkaMatchers::Helpers::SGR::StyledCapture do
+xdescribe TarkaMatchers::Helpers::SGR::StyledCapture do
 	subject { described_class }
 	it{ is_expected.to respond_to :capture }
 	it{ is_expected.to respond_to :indexes_of }

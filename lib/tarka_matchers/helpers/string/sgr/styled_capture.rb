@@ -3,7 +3,6 @@ module TarkaMatchers
 	module Helpers
 		module SGR
 			class StyledCapture
-				SGR = /\\e\[\d{1,3}m/
 				STYLED = /\\e\[\d{1,3}m\K(?!\\e\[\d{1,3}m)(.+?)(?=\\e\[\d{1,3}m|$)/
 				CODE = /\\e\[\K\d{1,3}(?=m)/
 				
