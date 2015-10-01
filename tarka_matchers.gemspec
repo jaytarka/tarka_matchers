@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["jaytarka@hotmail.com"]
 
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "http://rubygems.org"
+    spec.metadata['allowed_push_host'] = "https://rubygems.org"
   end
 
   spec.summary       = 'A set of rspec matchers'
