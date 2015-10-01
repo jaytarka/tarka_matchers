@@ -23,7 +23,7 @@ describe TarkaMatchers::Matchers::Class do
 					let(:expected){ 'derpage' }
 
 					it{ is_expected.to fail }
-					it{ is_expected.to have_a_failure_message_of "failed to contain an instance variable called, '#{instance_variable}', that equals '#{expected}'." }
+					it{ is_expected.to have_a_failure_message_of("xxx").keep_colors }
 				end
 			end
 		end
