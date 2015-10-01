@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+def install argv
+	require 'tarka_matchers/commands/install'
+	TarkaMatchers::Commands.install argv.drop(1)
+end
+case ARGV[0]
+when 'install'
+	install ARGV
+when 'calibrate'
+	require 'tarka_matchers/commands/calibrate'
+	TarkaMatchers::Commands.calibrate
+else
+	install ARGV
+end
