@@ -18,6 +18,7 @@ module TarkaMatchers
 				end
 				
 				def matches? actual
+#					fail_with "failed to contain an instance variable called '@blarsey'. It does not exist inside the class." unless actual.instance_variable_defined?(@instance_name)
 					@actual = actual.instance_variable_get(@instance_name)
 					@actual == @expected
 				end

@@ -11,15 +11,42 @@ describe TarkaMatchers::Matchers::Class do
 			context 'when class is baz' do
 				let(:actual){ Baz }
 				let(:instance_variable){ :@bazzy }
-				
-				context "when expected is 'wooooop!'" do
-					let(:expected){ 'wooooop!' }
-					it{ is_expected.to_not support_block_expectations }
-					it{ is_expected.to pass }
-					it{ is_expected.to have_a_description_of "should contain an instance variable called, '#{instance_variable}', that equals '#{expected}'." }
+			
+
+				context 'when instance_variable doest exist' do
+					let(:instance_variable){ :@blarsey }
+
+					context "when expected is ['wow','woo','zoo']" do
+						let(:expected){ ['wow','woo','zoo'] }
+
+						it{ is_expected.to fail }
+						it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called '@blarsey'. It does not exist inside the class.") }
+					end
+				end
+
+				context 'when instance_variable is :@tazzy' do
+					let(:instance_variable){ :@tazzy }
+
+					context "when expected is ['wow','woo','zoo']" do
+						let(:expected){ ['wow','woo','zoo'] }
+						it{ is_expected.to pass }
+					end
+				end
+
+				context "when expected is ['zaney','xab']" do
+					let(:expected){ ['zaney','xab'] }
+					it{ is_expected.to fail }
+					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '@bazzy', that equals 'derpage'.Expected: derpageX  Actual: wooooop! - 0.0% identical") }
 				end
 
 				context "when expected is 'derpage'" do
+					let(:expected){ 'derpage' }
+
+					it{ is_expected.to fail }
+					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '@bazzy', that equals 'derpage'.Expected: derpageX  Actual: wooooop! - 0.0% identical") }
+				end
+
+				context "when expected is ['derpage','merpage','slurpage']" do
 					let(:expected){ 'derpage' }
 
 					it{ is_expected.to fail }
