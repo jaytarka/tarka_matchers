@@ -4,9 +4,6 @@ module TarkaMatchers
 		class Selected
 			include Styles
 			def self.selected original, selected
-				ap original
-				ap selected
-
 				indexes = []
 				selected.each_slice(2){ |si,ei| indexes << (si..ei).to_a }
 				indexes.flatten!

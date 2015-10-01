@@ -35,7 +35,6 @@ module TarkaMatchers
 								pass_with_message
 							else
 								indexes = @matches.map{ |v| [v[0], v[2]] }.flatten
-								ap 'got to here baby'
 								if @expected.count.odd?
 									fail_with_message "The indexes provided, '#{@expected}', are of an odd number. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
 								elsif @expected.count < indexes.count
