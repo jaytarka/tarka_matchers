@@ -21,7 +21,7 @@ describe TarkaMatchers::Matchers::Regex do
 			context 'when string doesnt contain the pattern' do
 				let(:string){ "helsome" }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The string, '#{string}', does not contain the pattern, '#{actual}':#{TarkaMatchers::Formatters::Selected.selected(string, expected)}" }
+				it{ is_expected.to have_a_failure_message_of "The string, '#{string}', does not contain the pattern, '#{actual}':" }
 			end
 
 			context 'when expected is has an odd number of indexes' do
