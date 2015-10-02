@@ -55,17 +55,7 @@ module TarkaMatchers
 						fail_with_message "Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected."	
 					end
 				end
-=begin
-				def pass_with_message message="contain the pattern, '#{@actual}' at positions #{indexes_list}." 
-					@description = message
-					true
-				end	
 
-				def fail_with_message message="The string, '#{@string}', does not contain the pattern, '#{@actual}':#{TarkaMatchers::Formatters::Selected.selected(@string, @matches.map{ |v| [v[0], v[2]] }.flatten)}"
-					@failure_message = message
-					false
-				end
-=end
 				def indexes_list
 					list = ''
 					li = @expected.length

@@ -7,8 +7,21 @@ module TarkaMatchers
 				@description = message
 			end
 
-			def fail_default message
-				@failure_message = message
+			def fail_default option
+				append, message = nil
+				if option.is_a? Hash
+					entry = option[0]
+					case entry[0]
+					when :append
+						append = entry[1]
+					when :just
+						message = entry[1]
+					end
+				else
+					message = option
+				end
+
+				@failure_message = message || "failed to #{@description}#{append}"
 			end
 	
 			def negated_default message=nil
@@ -23,7 +36,7 @@ module TarkaMatchers
 			def fail_with_message message=nil
 				@failure_message = message if message
 				false
-			end
+			end	
 
 			alias_method :pass, :pass_with_message
 			alias_method :fail, :fail_with_message

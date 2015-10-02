@@ -11,7 +11,10 @@ describe TarkaMatchers::Matchers::Class do
 			context 'when class is baz' do
 				let(:actual){ Baz }
 				let(:instance_variable){ :@bazzy }
-			
+				let(:expected){ 'wooooop!' }
+
+				it{ is_expected.to pass }
+				it{ is_expected.to have_a_description_of "should contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'." }
 
 				context 'when instance_variable doest exist' do
 					let(:instance_variable){ :@blarsey }
@@ -30,27 +33,34 @@ describe TarkaMatchers::Matchers::Class do
 					context "when expected is ['wow','woo','zoo']" do
 						let(:expected){ ['wow','woo','zoo'] }
 						it{ is_expected.to pass }
+						it{ is_expected.to have_a_description_of "should contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'." }
+					end
+
+					context "when expected is ['wow','woz','zooper']" do
+						let(:expected){ ['wow','woz','zooper'] }
+						it{ is_expected.to fail }
+						it{ is_expected.to have_a_failure_message_of "failed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.Expected: [\\wow\\, \\woz\\, \\zooper\\]  Actual: [\\wow\\, \\woo\\, \\zoo\\]XXX - 75.0% identical" }
 					end
 				end
 
 				context "when expected is ['zaney','xab']" do
 					let(:expected){ ['zaney','xab'] }
 					it{ is_expected.to fail }
-					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '@bazzy', that equals 'derpage'.Expected: derpageX  Actual: wooooop! - 0.0% identical") }
+					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.Expected: #{escape(expected.to_s)}  Actual: wooooop!XXXXXXXX - 0.0% identical") }
 				end
 
 				context "when expected is 'derpage'" do
 					let(:expected){ 'derpage' }
 
 					it{ is_expected.to fail }
-					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '@bazzy', that equals 'derpage'.Expected: derpageX  Actual: wooooop! - 0.0% identical") }
+					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.Expected: #{escape(expected.to_s)}X  Actual: wooooop! - 0.0% identical") }
 				end
 
-				context "when expected is ['derpage','merpage','slurpage']" do
-					let(:expected){ 'derpage' }
+				context "when expected is ['derpage','merpage','slurpage','perp']" do
+					let(:expected){ ['derpage','merpage','slurpage','perp'] }
 
 					it{ is_expected.to fail }
-					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '@bazzy', that equals 'derpage'.Expected: derpageX  Actual: wooooop! - 0.0% identical") }
+					it{ is_expected.to have_a_failure_message_of("failed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.Expected: #{escape(expected.to_s)}  Actual: wooooop!XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX - 0.0% identical") }
 				end
 			end
 		end
