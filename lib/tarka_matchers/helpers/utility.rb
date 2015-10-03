@@ -1,29 +1,45 @@
+require 'tarka_matchers/formatters'
 module TarkaMatchers
 	module Helpers
 		module Utility
 			attr_reader :description, :failure_message, :failure_message_when_negated
 
-			def pass_default message
+			def pass_default message='pass'
 				@description = message
+				negated_default
+				fail_default
 			end
 
-			def fail_default option
+			def fail_default option=nil
 				append, message = nil
-				if option.is_a? Hash
-					entry = option[0]
-					case entry[0]
+				
+				if option == nil
+					append = TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+				elsif option.is_a? Hash
+					k = option.first[0]
+					v = option.first[1]
+					case k
 					when :append
-						append = entry[1]
+						if v.is_a? String
+							append = v
+						elsif v.is_a? Symbol
+							case v
+							when :match
+								append = TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+							when :difference
+								append = TarkaMatchers::Formatters::Selected.selected(@expected,@actual)
+							end
+						else
+							append = TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+						end
 					when :just
-						message = entry[1]
+						message = v
 					end
-				else
-					message = option
 				end
 
 				@failure_message = message || "failed to #{@description}#{append}"
 			end
-	
+
 			def negated_default message=nil
 				@failure_message_when_negated = message || "did #{@description}"
 			end
@@ -37,6 +53,12 @@ module TarkaMatchers
 				@failure_message = message if message
 				false
 			end	
+
+			def create_messages message=nil, selected_formatter=nil
+				pass_default message 
+				negated_default 
+				fail_default selected_formatter
+			end
 
 			alias_method :pass, :pass_with_message
 			alias_method :fail, :fail_with_message

@@ -23,7 +23,7 @@ module TarkaMatchers
 					@actual = actual.instance_variable_get(@instance_name)
 					pass_default "contain an instance variable called, '#{@instance_name}', that equals '#{@expected}'."
 					negated_default
-					fail_default "failed to #{description}\n#{TarkaMatchers::Formatters::Difference.difference(@expected,@actual)}"
+					fail_default append: "#{TarkaMatchers::Formatters::Difference.difference(@expected,@actual)}"
 					fail_with_message "failed to contain an instance variable called '#{@instance_name}'. It does not exist inside the class." unless actual.instance_variable_defined?(@instance_name)
 					@actual == @expected
 				end
