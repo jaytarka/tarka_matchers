@@ -10,6 +10,10 @@ module TarkaMatchers
 				fail_default
 			end
 
+			def negated_default message=nil
+				@failure_message_when_negated = message || "did #{@description}"
+			end
+
 			def fail_default option=nil
 				append, message = nil
 				
@@ -40,9 +44,6 @@ module TarkaMatchers
 				@failure_message = message || "failed to #{@description}#{append}"
 			end
 
-			def negated_default message=nil
-				@failure_message_when_negated = message || "did #{@description}"
-			end
 
 			def pass_with_message message=nil
 				@description = message if message
@@ -53,12 +54,6 @@ module TarkaMatchers
 				@failure_message = message if message
 				false
 			end	
-
-			def create_messages message=nil, selected_formatter=nil
-				pass_default message 
-				negated_default 
-				fail_default selected_formatter
-			end
 
 			alias_method :pass, :pass_with_message
 			alias_method :fail, :fail_with_message
