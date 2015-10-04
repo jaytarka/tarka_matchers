@@ -3,6 +3,14 @@ module TarkaMatchers
 	module Helpers
 		module Utility
 			attr_reader :description, :failure_message, :failure_message_when_negated
+			
+			def difference
+				TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+			end
+
+			def selected
+				TarkaMatchers::Formatters::Selected.selected(@expected,@actual)
+			end
 
 			def pass_default message='pass'
 				@description = message
@@ -16,9 +24,9 @@ module TarkaMatchers
 
 			def fail_default option=nil
 				append, message = nil
-				
+
 				if option == nil
-					append = TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+					append = difference
 				elsif option.is_a? Hash
 					k = option.first[0]
 					v = option.first[1]
@@ -29,12 +37,12 @@ module TarkaMatchers
 						elsif v.is_a? Symbol
 							case v
 							when :match
-								append = TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+								append = difference
 							when :difference
-								append = TarkaMatchers::Formatters::Selected.selected(@expected,@actual)
+								append = selected
 							end
 						else
-							append = TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+							append = difference
 						end
 					when :just
 						message = v
@@ -44,7 +52,6 @@ module TarkaMatchers
 				@failure_message = message || "failed to #{@description}#{append}"
 			end
 
-
 			def pass_with_message message=nil
 				@description = message if message
 				true
@@ -53,7 +60,7 @@ module TarkaMatchers
 			def fail_with_message message=nil
 				@failure_message = message if message
 				false
-			end	
+			end
 
 			alias_method :pass, :pass_with_message
 			alias_method :fail, :fail_with_message

@@ -3,8 +3,12 @@ require 'tarka_matchers/utility'
 
 describe TarkaMatchers::Helpers::Utility do
 	let(:parent){ Class.new{ include( TarkaMatchers::Helpers::Utility ) }.new }
+
 	let(:pass_default_proc){ Proc.new{ |args| parent.pass_default *args } }
 	let(:pass_default){ pass_default_proc.call *pass_args }
+
+	let(:negated_default_proc){ Proc.new{ |args| parent.pass_default *args } }
+	let(:negated_default){ negated_default_proc.call *pass_args }
 
 	let(:pass_with_message_proc){ Proc.new{ |args| parent.pass_with_message *args } }
 	let(:pass_with_message){ pass_with_message_proc.call *pass_with_message_args }
