@@ -117,8 +117,7 @@ describe TarkaMatchers::Helpers::Utility do
 
 	describe '#failure_message' do
 		let(:prepend){ 'failed to' }
-		before{ allow(TarkaMatchers::Formatters::Difference).to receive(:difference).and_return(difference_format) }
-		before{ allow(TarkaMatchers::Formatters::Selected).to receive(:selected).and_return(selected_format) }
+		include_context 'formatter mock'
 		subject{ parent.failure_message }
 
 		context 'when pass default is called' do
