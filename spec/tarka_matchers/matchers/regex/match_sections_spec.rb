@@ -80,6 +80,7 @@ describe TarkaMatchers::Matchers::Regex do
 					let(:expected){ ['[432yuza','[032yuza','[555yuza'] }
 
 					it{ is_expected.to pass }
+					it{ is_expected.to have_a_description_of '' }
 				end
 
 				context 'when expected is incorrect content' do
@@ -88,23 +89,7 @@ describe TarkaMatchers::Matchers::Regex do
 					let(:expected){  ['[432yuza','[032yuzk','[515yuzp']    }
 
 					it{ is_expected.to fail }
-				end
-
-				context 'when expected is more contents than index pairs' do
-					let(:actual){ /\[\d{1,3}yuz\w/ }
-					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
-					let(:expected){  ['[432yuza','[032yuzk','[515yuzp','wowza']    }
-
-					it{ is_expected.to fail }
-				end
-
-				context 'when expected is less contents than index pairs' do
-					let(:actual){ /\[\d{1,3}yuz\w/ }
-					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
-					let(:expected){  ['[432yuza','[032yuzk']    }
-
-					it{ is_expected.to fail }
-					it{ is_expected.to have_a_failure_message_of 'it fails' }
+					it{ is_expected.to have_a_failure_message_of '' }
 				end
 			end
 

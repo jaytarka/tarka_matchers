@@ -4,12 +4,12 @@ module TarkaMatchers
 		module Utility
 			attr_reader :description, :failure_message, :failure_message_when_negated
 			
-			def difference
-				" #{TarkaMatchers::Formatters::Difference.difference(@expected,@actual)}"
+			def difference expected=@expected, actual=@actual
+				TarkaMatchers::Formatters::Difference.difference(expected,actual)
 			end
 
-			def selected
-				" #{TarkaMatchers::Formatters::Selected.selected(@expected,@actual)}"
+			def selected expected=@expected, actual=@actual
+				TarkaMatchers::Formatters::Selected.selected(expected,actual)
 			end
 
 			def pass_default message='pass'
