@@ -80,16 +80,16 @@ describe TarkaMatchers::Matchers::Regex do
 					let(:expected){ ['[432yuza','[032yuza','[555yuza'] }
 
 					it{ is_expected.to pass }
-					it{ is_expected.to have_a_description_of '' }
+					it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)' and match: '[432yuza','[032yuza' and '[555yuza'."  }
 				end
 
 				context 'when expected is incorrect content' do
 					let(:actual){ /\[\d{1,3}yuz\w/ }
 					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
-					let(:expected){  ['[432yuza','[032yuzk','[515yuzp']    }
+					let(:expected){ ['[432yuza','[032yuzk','[515yuzp'] }
 
 					it{ is_expected.to fail }
-					it{ is_expected.to have_a_failure_message_of '' }
+					it{ is_expected.to have_a_failure_message_of "The string, 'hello [432yuza wowowmely\\a [032yuzakzaw[555yuzak', does not contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)':Original: hello [432yuza wowowmely\\a [032yuzakzaw[555yuzakSelected: XXXXXX[432yuzaXXXXXXXXXXXXXXXXXX[032yuzaXXXX[555yuzaX - 45.283% matched" }
 				end
 			end
 
@@ -106,14 +106,33 @@ describe TarkaMatchers::Matchers::Regex do
 			end
 		end
 
-		context 'with complex regex' do
-
-		end
-
 		context 'with escaped string and regex to match SGR codes' do
 			let(:actual){ /\\e\[\d{1,3}m\K(?!\\e\[\d{1,3}m)(.+?)(?=\\e\[\d{1,3}m|$)/ }
-			let(:expected){ escape "hello \e[37mI am friggin awesomely\e[35mawesome am\e[32mawesome" }
+			let(:string){ escape "hello \e[37mI am friggin awesomely\e[35mawesome am\e[32mawesome hjkxx\e[32mxxmhk" }
 
+			context 'when expected is a correct extracts list' do
+				let(:expected){ ['I am friggin awesomely','awesome am','awesome hjkxx','xxmhk'] }
+				it{ is_expected.to pass }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\\\\\e\\\\[\\\\d{1,3}m\\\\K(?!\\\\\\\\e\\\\[\\\\d{1,3}m)(.+?)(?=\\\\\\\\e\\\\[\\\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk'." }
+			end
+
+			context 'when expected is an incorrect extracts list' do
+				let(:expected){ ['I am friggin awely','asome am','awesome hjkxx','xxmhk'] }
+				it{ is_expected.to fail }
+				it{ is_expected.to have_a_failure_message_of "The string, 'hello \I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhk', does not contain the pattern, '(?-mix:\\\\\\\\e\\\\\[\\\\d{1,3}m\\\\K(?!\\\\\\\\e\\\\[\\\\d{1,3}m)(.+?)(?=\\\\\\\\e\\\\[\\\\d{1,3}m|$))':Original: hello \\I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhkSelected: XXXXXXXXXXXXI am friggin awesomelyXXXXXXawesome amXXXXXXawesome hjkxxXXXXXXxxmhk - 62.5% matched" }
+			end
+
+			context 'when expected is a correct indexes list' do
+				let(:expected){ [7,13] }
+				it{ is_expected.to pass }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\e\\[\\d{1,3}m\\K(?!\\\\e\\[\\d{1,3}m)(.+?)(?=\\\\e\\[\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
+			end
+
+			context 'when expected is an incorrect indexes list' do
+				let(:expected){ [7,22] }
+				it{ is_expected.to fail }
+				it{ is_expected.to have_a_failure_message_of "should contain the pattern, '(?-mix:\\\\e\\[\\d{1,3}m\\K(?!\\\\e\\[\\d{1,3}m)(.+?)(?=\\\\e\\[\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
+			end
 		end
 	end
 end
