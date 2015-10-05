@@ -65,16 +65,47 @@ describe TarkaMatchers::Matchers::Regex do
 				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)' at positions '6' to '13','32' to '39' and '44' to '51'." }
 			end
 
-			context 'when expected is correct content' do
-
-			end
-
 			context 'when expected is incorrect indexes' do
-
+				let(:actual){ /\[\d{1,3}yuz\w/ }
+				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
+				let(:expected){ [5,9,21,28,33,49] }
+				it{ is_expected.to fail }
+				it{ is_expected.to have_a_failure_message_of "The string, 'hello [432yuza wowowmely\\a [032yuzakzaw[555yuzak', does not contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)':Original: hello [432yuza wowowmely\\a [032yuzakzaw[555yuzakSelected: XXXXXX[432yuzaXXXXXXXXXXXXXXXXXX[032yuzaXXXX[555yuzaX - 45.283% matched"}
 			end
+			
+			context 'when expected is content' do
+				context 'when expected is correct content' do
+					let(:actual){ /\[\d{1,3}yuz\w/ }
+					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
+					let(:expected){ ['[432yuza','[032yuza','[555yuza'] }
 
-			context 'when expected is incorrect content' do
+					it{ is_expected.to pass }
+				end
 
+				context 'when expected is incorrect content' do
+					let(:actual){ /\[\d{1,3}yuz\w/ }
+					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
+					let(:expected){  ['[432yuza','[032yuzk','[515yuzp']    }
+
+					it{ is_expected.to fail }
+				end
+
+				context 'when expected is more contents than index pairs' do
+					let(:actual){ /\[\d{1,3}yuz\w/ }
+					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
+					let(:expected){  ['[432yuza','[032yuzk','[515yuzp','wowza']    }
+
+					it{ is_expected.to fail }
+				end
+
+				context 'when expected is less contents than index pairs' do
+					let(:actual){ /\[\d{1,3}yuz\w/ }
+					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
+					let(:expected){  ['[432yuza','[032yuzk']    }
+
+					it{ is_expected.to fail }
+					it{ is_expected.to have_a_failure_message_of 'it fails' }
+				end
 			end
 
 			context 'when expected contains a float' do
