@@ -5,11 +5,11 @@ module TarkaMatchers
 			attr_reader :description, :failure_message, :failure_message_when_negated
 			
 			def difference
-				TarkaMatchers::Formatters::Difference.difference(@expected,@actual)
+				" #{TarkaMatchers::Formatters::Difference.difference(@expected,@actual)}"
 			end
 
 			def selected
-				TarkaMatchers::Formatters::Selected.selected(@expected,@actual)
+				" #{TarkaMatchers::Formatters::Selected.selected(@expected,@actual)}"
 			end
 
 			def pass_default message='pass'
@@ -27,6 +27,8 @@ module TarkaMatchers
 
 				if option == nil
 					append = difference
+				elsif option.is_a? String
+					message = option
 				elsif option.is_a? Hash
 					k = option.first[0]
 					v = option.first[1]
@@ -36,9 +38,9 @@ module TarkaMatchers
 							append = v
 						elsif v.is_a? Symbol
 							case v
-							when :match
-								append = difference
 							when :difference
+								append = difference
+							when :selected
 								append = selected
 							end
 						else
