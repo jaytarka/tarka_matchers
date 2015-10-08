@@ -3,6 +3,7 @@ require 'tarka_matchers/class_matchers'
 
 describe TarkaMatchers::Matchers::Class do
 	it{ is_expected.to respond_to :have_an_instance_variable_of }
+	include_context 'formatter mock'
 	describe '#have_an_instance_variable_of' do
 		let(:matcher){ have_an_instance_variable_of(instance_variable).that_equals(expected) }
 		context 'when normal' do
@@ -37,7 +38,6 @@ describe TarkaMatchers::Matchers::Class do
 					end
 
 					context "when expected is ['wow','woz','zooper']" do
-						include_context 'formatter mock'
 						let(:expected){ ['wow','woz','zooper'] }
 						it{ is_expected.to fail }
 						it{ is_expected.to have_a_failure_message_of "xfailed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.#{difference_format}" }
