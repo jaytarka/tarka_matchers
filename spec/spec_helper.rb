@@ -13,3 +13,4 @@ require 'support/fixtures/expectations/rawrg_up_to'
 require 'support/fixtures/classes/baz'
 
 require 'support/shared_contexts/mocks/formatter_mock'
+require 'support/methods/mock_formatter'
