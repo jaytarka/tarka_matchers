@@ -3,6 +3,7 @@ require 'the_great_escape'
 require 'spec_helper'
 
 describe TarkaMatchers::Matchers::Regex do
+	include_context 'formatter mock'
 	subject{ described_class }
 	it{ is_expected.to respond_to :match_sections }
 	
@@ -11,11 +12,11 @@ describe TarkaMatchers::Matchers::Regex do
 	end
 
 	describe '#match_sections' do
+		let(:actual){ /\[\d{1,3}yuz\w/ }
+		let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 		subject{ Proc.new{ expect(actual).to match_sections(*expected).when_used_on(string) } }
 
 		context 'when actual is simple regex' do
-			let(:actual){ /\[\d{1,3}yuz\w/ }
-			let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 			let(:expected){ [6,13,32,39] }
 
 			context 'when string doesnt contain the pattern' do
@@ -25,28 +26,25 @@ describe TarkaMatchers::Matchers::Regex do
 			end
 
 			context 'when expected is has an odd number of indexes' do
-				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 				let(:expected){ [6,13,32] }
 				it{ is_expected.to fail }
 				it{ is_expected.to have_a_failure_message_of "The indexes provided, '[6, 13, 32]', are of an odd number. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)'." }
 			end
 
 			context 'when expected contains less index pairs than matches' do
-				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 				let(:expected){ [6,13] }
 				it{ is_expected.to fail }
 				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '[6, 13]', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)'."}
 			end
 
 			context 'when expected contains more index pairs than matches' do
-				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzm awesome" }
 				let(:expected){ [6,13,32,46,54,122] }
 				it{ is_expected.to fail }
 				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '[6, 13, 32, 46, 54, 122]', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)'." }
 			end
 
 			context 'when expected is one correct index pair' do
-				let(:string){ escape "hello [432yuza wowowmely\e[35awesome" }
+				let(:string){ escape "hello [432yuza wowowmely\e[35ma [03zak" }
 				let(:expected){ [6,13] }
 				it{ is_expected.to pass }
 				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\[\\\\d{1,3}yuz\\\\w)' at positions '6' to '13'." }
@@ -58,7 +56,6 @@ describe TarkaMatchers::Matchers::Regex do
 			end
 
 			context 'when expected is three correct index pairs' do
-				let(:actual){ /\[\d{1,3}yuz\w/ }
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 				let(:expected){ [6,13,32,39,44,51] }
 				it{ is_expected.to pass }
@@ -66,7 +63,6 @@ describe TarkaMatchers::Matchers::Regex do
 			end
 
 			context 'when expected is incorrect indexes' do
-				let(:actual){ /\[\d{1,3}yuz\w/ }
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 				let(:expected){ [5,9,21,28,33,49] }
 				it{ is_expected.to fail }
@@ -74,9 +70,8 @@ describe TarkaMatchers::Matchers::Regex do
 			end
 			
 			context 'when expected is content' do
+				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 				context 'when expected is correct content' do
-					let(:actual){ /\[\d{1,3}yuz\w/ }
-					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 					let(:expected){ ['[432yuza','[032yuza','[555yuza'] }
 
 					it{ is_expected.to pass }
@@ -84,8 +79,6 @@ describe TarkaMatchers::Matchers::Regex do
 				end
 
 				context 'when expected is incorrect content' do
-					let(:actual){ /\[\d{1,3}yuz\w/ }
-					let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 					let(:expected){ ['[432yuza','[032yuzk','[515yuzp'] }
 
 					it{ is_expected.to fail }
@@ -108,30 +101,30 @@ describe TarkaMatchers::Matchers::Regex do
 
 		context 'with escaped string and regex to match SGR codes' do
 			let(:actual){ /\\e\[\d{1,3}m\K(?!\\e\[\d{1,3}m)(.+?)(?=\\e\[\d{1,3}m|$)/ }
-			let(:string){ escape "hello \e[37mI am friggin awesomely\e[35mawesome am\e[32mawesome hjkxx\e[32mxxmhk" }
+			let(:string){ escape("hello \e[37mI am friggin awesomely\e[35mawesome am\e[32mawesome hjkxx\e[32mxxmhk") }
 
 			context 'when expected is a correct extracts list' do
 				let(:expected){ ['I am friggin awesomely','awesome am','awesome hjkxx','xxmhk'] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\\\\\e\\\\[\\\\d{1,3}m\\\\K(?!\\\\\\\\e\\\\[\\\\d{1,3}m)(.+?)(?=\\\\\\\\e\\\\[\\\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape(actual.to_s)}' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk'." }
 			end
 
 			context 'when expected is an incorrect extracts list' do
 				let(:expected){ ['I am friggin awely','asome am','awesome hjkxx','xxmhk'] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The string, 'hello \I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhk', does not contain the pattern, '(?-mix:\\\\\\\\e\\\\\[\\\\d{1,3}m\\\\K(?!\\\\\\\\e\\\\[\\\\d{1,3}m)(.+?)(?=\\\\\\\\e\\\\[\\\\d{1,3}m|$))':Original: hello \\I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhkSelected: XXXXXXXXXXXXI am friggin awesomelyXXXXXXawesome amXXXXXXawesome hjkxxXXXXXXxxmhk - 62.5% matched" }
+				it{ is_expected.to have_a_failure_message_of "The string, 'hello \\I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhk', does not contain the pattern, '#{escape(actual.to_s)}':Original: hello \\I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhkSelected: XXXXXXXXXXXXI am friggin awesomelyXXXXXXawesome amXXXXXXawesome hjkxxXXXXXXxxmhk - 62.5% matched" }
 			end
 
 			context 'when expected is a correct indexes list' do
 				let(:expected){ [7,13] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\e\\[\\d{1,3}m\\K(?!\\\\e\\[\\d{1,3}m)(.+?)(?=\\\\e\\[\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '(?-mix:\\\\\\\\e\\[\\d{1,3}m\\K(?!\\\\\\\\e\\\\[\\\\d{1,3}m)(.+?)(?=i\\\\\\\\e\\\\[\\\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
 			end
 
 			context 'when expected is an incorrect indexes list' do
 				let(:expected){ [7,22] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "should contain the pattern, '(?-mix:\\\\e\\[\\d{1,3}m\\K(?!\\\\e\\[\\d{1,3}m)(.+?)(?=\\\\e\\[\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
+				it{ is_expected.to have_a_failure_message_of "should contain the pattern, '(?-mix:\\\\\\\\e\\\\[\\\\d{1,3}m\\K(?!\\\\\\\\e\\\\[\\\\d{1,3}m)(.+?)(?=\\\\\\\\e\\\\[\\\\d{1,3}m|$))' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
 			end
 		end
 	end

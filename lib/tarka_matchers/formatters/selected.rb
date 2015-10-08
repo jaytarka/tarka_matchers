@@ -10,7 +10,6 @@ module TarkaMatchers
 
 				original_line = "#{GREEN_F}Original: #{BLACK_ON_GREEN}#{original}#{RESET}"
 				selected_line = "\n#{RESET}#{RED_F}Selected: "
-				
 				selects = 0
 				original.split('').each_with_index do |v,i|
 					if indexes.include? i

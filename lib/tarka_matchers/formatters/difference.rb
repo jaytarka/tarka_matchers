@@ -34,7 +34,6 @@ module TarkaMatchers
 						actual_line << "#{BLACK_ON_GREEN}#{a}"
 					end
 				end
-
 				identical = ((correct.to_f/longest_length) * 100).round 3
 				"\n\n#{expected_line}#{actual_line}#{RESET}#{RED_F} - #{identical}% identical#{RESET}" 
 			end	

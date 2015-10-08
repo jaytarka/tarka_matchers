@@ -37,9 +37,10 @@ describe TarkaMatchers::Matchers::Class do
 					end
 
 					context "when expected is ['wow','woz','zooper']" do
+						include_context 'formatter mock'
 						let(:expected){ ['wow','woz','zooper'] }
 						it{ is_expected.to fail }
-						it{ is_expected.to have_a_failure_message_of "failed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.Expected: [\\wow\\, \\woz\\, \\zooper\\]  Actual: [\\wow\\, \\woo\\, \\zoo\\]XXX - 75.0% identical" }
+						it{ is_expected.to have_a_failure_message_of "xfailed to contain an instance variable called, '#{instance_variable}', that equals '#{escape(expected.to_s)}'.#{difference_format}" }
 					end
 				end
 

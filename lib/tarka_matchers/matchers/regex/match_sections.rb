@@ -26,10 +26,6 @@ module TarkaMatchers
 					
 					if integers || strings
 						@matches = indexes = Helpers::SGR::StyledCapture.indexes_of(@string, @actual)
-
-						# indexes_and_content
-						# indexes
-						# content
 						pass_default "contain the pattern, '#{@actual}' at positions #{indexes_list}." 
 						fail_default "The string, '#{@string}', does not contain the pattern, '#{@actual}':#{selected(@string, @matches.map{ |v| [v[0], v[2]] }.flatten)}"
 
@@ -48,9 +44,9 @@ module TarkaMatchers
 								if @expected.count.odd?
 									fail_with_message "The indexes provided, '#{@expected}', are of an odd number. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
 								elsif @expected.count < indexes.count
-									fail_with_message "The index pairs provided, '#{@expected}', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
+									fail_with_message "The index pairs provided, '#{@expected}', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}':#{selected(@string, @matches.map{ |v| [v[0], v[2]] }.flatten)}"
 								elsif @expected.count > indexes.count
-									fail_with_message "The index pairs provided, '#{@expected}', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}'."
+									fail_with_message "The index pairs provided, '#{@expected}', are more than the number of matches found in the string. Please provide the start and end index pairs of all sections of '#{@string}' that should be selected by '#{@actual}':#{selected(@string, @matches.map{ |v| [v[0], v[2]] }.flatten)}"
 								else
 									@expected == indexes
 								end

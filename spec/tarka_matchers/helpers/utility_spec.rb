@@ -7,7 +7,7 @@ describe TarkaMatchers::Helpers::Utility do
 	let(:pass_default){ parent.pass_default *pass_args }
 	let(:pass_args){ [] }
 
-	let(:negated_default){ parent.pass_default *negated_args }
+	let(:negated_default){ parent.negated_default *negated_args }
 	let(:negated_args){ [] }
 
 	let(:pass_with_message){ parent.pass_with_message *pass_with_message_args }	
@@ -53,6 +53,20 @@ describe TarkaMatchers::Helpers::Utility do
 			context 'with pass_args is "this is the description foobar"' do	
 				let(:pass_args){ [pass_message] }
 				it{ is_expected.to eq pass_message }
+				
+				context 'when pass_args is changed a second time' do
+					let(:second_pass_args){ 'foozywooze' }
+					let(:pass_args){ [second_pass_args] }
+					it{ is_expected.to eq second_pass_args }
+					it{ is_expected.to_not eq pass_args }
+
+					context 'when pass_args is changed a third time' do
+						let(:third_pass_args){ 'foozyxxwooze' }
+						let(:pass_args){ [third_pass_args] }
+						it{ is_expected.to eq third_pass_args }
+						it{ is_expected.to_not eq second_pass_args }
+					end
+				end
 			end
 		end
 
@@ -85,7 +99,7 @@ describe TarkaMatchers::Helpers::Utility do
 
 			context 'with pass_args is "this is the description foobar"' do	
 				let(:negated_args){ [negated_message] }
-				it{ is_expected.to eq "#{prepend} #{negated_message}" }
+				it{ is_expected.to eq "#{negated_message}" }
 			end
 		end
 
