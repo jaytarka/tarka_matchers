@@ -10,8 +10,7 @@ def mock_formatters mocked_difference
 	@rspec_matchers = ::RSpec::Matchers
 	@real_difference = formatter.singleton_method(:difference).unbind
 	formatter.define_singleton_method(:difference_clone, @real_difference )
-#	formatter.send(:define_method, :difference_clone){ |expected,actual| "hello m'lady, im a clone" }
-#	ap formatter.difference @expected, @actual
+
 	class <<formatter
 		remove_method(:difference)
 		define_method(:difference) do |expected,actual| 
@@ -22,23 +21,6 @@ def mock_formatters mocked_difference
 			end
 		end
 	end
-end
-
-def remove
-	@rspec_matchers.send :remove_method, :expect
-end
-
-def redefine
-	@rspec_matchers = ::RSpec::Matchers
-	@real_expect = @rspec_matchers.instance_method :expect
-	self.remove
-	expect_capture = self
-	@rspec_matchers.send(:define_method, :expect){ |target=:undefined, &block_target| expect_capture.new(target, block_target) }
-end
-
-def replace
-	self.remove
-	@rspec_matchers.send(:define_method, :expect, @real_expect)
 end
 
 shared_context 'formatter mock' do
