@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'tarka_matchers/utility'
 
 describe TarkaMatchers::Helpers::Utility do
+	include_context 'mocked formatters'
 	let(:parent){ Class.new{ include( TarkaMatchers::Helpers::Utility ) }.new }
 
 	let(:pass_default){ parent.pass_default *pass_args }
@@ -131,7 +132,6 @@ describe TarkaMatchers::Helpers::Utility do
 
 	describe '#failure_message' do
 		let(:prepend){ 'failed to' }
-		include_context 'formatter mock'
 		subject{ parent.failure_message }
 
 		context 'when pass default is called' do
