@@ -26,9 +26,6 @@ describe TarkaMatchers::Helpers::Utility do
 	let(:append_1){ 'hello this is the appended message' }
 	let(:append_2){ 'hello this is the a second appended message that can be utilized' }
 
-	let(:difference_format){ 'the difference is 80%' }
-	let(:selected_format){ 'the selected is 80%' }
-
 	subject{ parent }
 	it{ is_expected.to respond_to :description }
 	it{ is_expected.to respond_to :failure_message }
