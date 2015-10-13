@@ -5,6 +5,8 @@ module TarkaMatchers
 			include Styles
 
 			def self.difference expected, actual
+				expected = expected.to_s
+				actual = actual.to_s
 				expected_line = "#{GREEN_F}Expected: #{BLACK_ON_GREEN}#{expected}#{RESET}"
 				expected_length = expected.length
 				actual_length = actual.length
@@ -32,7 +34,6 @@ module TarkaMatchers
 						actual_line << "#{BLACK_ON_GREEN}#{a}"
 					end
 				end
-
 				identical = ((correct.to_f/longest_length) * 100).round 3
 				"\n\n#{expected_line}#{actual_line}#{RESET}#{RED_F} - #{identical}% identical#{RESET}" 
 			end	

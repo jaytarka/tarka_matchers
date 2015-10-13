@@ -1,3 +1,3 @@
 module TarkaMatchers
-  VERSION = '0.0.5'
+  VERSION = '0.0.54'
 end

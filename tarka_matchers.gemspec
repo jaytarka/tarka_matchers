@@ -10,12 +10,12 @@ Gem::Specification.new do |spec|
   spec.email         = ["jaytarka@hotmail.com"]
 
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com' to prevent pushes to rubygems.org, or delete to allow pushes to any server."
+    spec.metadata['allowed_push_host'] = "https://rubygems.org"
   end
 
   spec.summary       = 'A set of rspec matchers'
   spec.description   = 'A (very) small set of rspec matchers that make it easier to write one-liner isolated routing specs. I hope to add many more routes in the future.'
-  spec.homepage      = 'TODO: Put your gem\'s website or public repo URL here.'
+  spec.homepage      = 'https://github.com/jaytarka/tarka_matchers'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(spec)/}) }
@@ -30,6 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'the_great_escape'
 	spec.add_development_dependency 'rake', '~> 10.0'
-	spec.add_development_dependency 'rspec-given'
 	spec.add_development_dependency 'faker'
 end
