@@ -3,6 +3,7 @@ module TarkaMatchers
 		module Styles		
 			RED_F = "\e[31m"
 			YELLOW_F = "\e[33m"
+			WHITE_F = "\e[37m"
 			GREEN_F = "\e[32m"
 			L_GREEN_F = "\e[92m"
 			RESET =	"\e[0m"

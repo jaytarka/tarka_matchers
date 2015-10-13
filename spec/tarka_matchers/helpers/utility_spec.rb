@@ -2,12 +2,13 @@ require 'spec_helper'
 require 'tarka_matchers/utility'
 
 describe TarkaMatchers::Helpers::Utility do
+	include_context 'mocked formatters'
 	let(:parent){ Class.new{ include( TarkaMatchers::Helpers::Utility ) }.new }
 
 	let(:pass_default){ parent.pass_default *pass_args }
 	let(:pass_args){ [] }
 
-	let(:negated_default){ parent.pass_default *negated_args }
+	let(:negated_default){ parent.negated_default *negated_args }
 	let(:negated_args){ [] }
 
 	let(:pass_with_message){ parent.pass_with_message *pass_with_message_args }	
@@ -24,9 +25,6 @@ describe TarkaMatchers::Helpers::Utility do
 
 	let(:append_1){ 'hello this is the appended message' }
 	let(:append_2){ 'hello this is the a second appended message that can be utilized' }
-
-	let(:difference_format){ 'the difference is 80%' }
-	let(:selected_format){ 'the selected is 80%' }
 
 	subject{ parent }
 	it{ is_expected.to respond_to :description }
@@ -53,6 +51,20 @@ describe TarkaMatchers::Helpers::Utility do
 			context 'with pass_args is "this is the description foobar"' do	
 				let(:pass_args){ [pass_message] }
 				it{ is_expected.to eq pass_message }
+				
+				context 'when pass_args is changed a second time' do
+					let(:second_pass_args){ 'foozywooze' }
+					let(:pass_args){ [second_pass_args] }
+					it{ is_expected.to eq second_pass_args }
+					it{ is_expected.to_not eq pass_args }
+
+					context 'when pass_args is changed a third time' do
+						let(:third_pass_args){ 'foozyxxwooze' }
+						let(:pass_args){ [third_pass_args] }
+						it{ is_expected.to eq third_pass_args }
+						it{ is_expected.to_not eq second_pass_args }
+					end
+				end
 			end
 		end
 
@@ -85,7 +97,7 @@ describe TarkaMatchers::Helpers::Utility do
 
 			context 'with pass_args is "this is the description foobar"' do	
 				let(:negated_args){ [negated_message] }
-				it{ is_expected.to eq "#{prepend} #{negated_message}" }
+				it{ is_expected.to eq "#{negated_message}" }
 			end
 		end
 
@@ -117,19 +129,17 @@ describe TarkaMatchers::Helpers::Utility do
 
 	describe '#failure_message' do
 		let(:prepend){ 'failed to' }
-		before{ allow(TarkaMatchers::Formatters::Difference).to receive(:difference).and_return(difference_format) }
-		before{ allow(TarkaMatchers::Formatters::Selected).to receive(:selected).and_return(selected_format) }
 		subject{ parent.failure_message }
 
 		context 'when pass default is called' do
 			before{ pass_default }
 			context 'when no pass_args' do
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{difference_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{difference_format}" }
 			end
 
 			context 'with pass_args is "this is the description foobar"' do	
 				let(:pass_args){ [pass_message] }
-				it{ is_expected.to eq "#{prepend} #{pass_message} #{difference_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_message}#{difference_format}" }
 			end
 		end
 
@@ -152,7 +162,7 @@ describe TarkaMatchers::Helpers::Utility do
 			end
 
 			context 'when there are no fail_default_args' do
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{difference_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{difference_format}" }
 			end
 
 			context 'when fail_default_args is a string' do
@@ -166,33 +176,33 @@ describe TarkaMatchers::Helpers::Utility do
 			end
 
 			context 'when fail_default_args is append: append_1' do
-				let(:fail_default_args){ [append: " #{append_1}"] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{append_1}" }
+				let(:fail_default_args){ [append: "#{append_1}"] }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{append_1}" }
 			end
 
 			context 'when fail_default_args is append: append_2' do
-				let(:fail_default_args){ [append: " #{append_2}"] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{append_2}" }
+				let(:fail_default_args){ [append: "#{append_2}"] }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{append_2}" }
 			end
 
 			context 'when fail_default_args is append: :difference' do
 				let(:fail_default_args){ [append: :difference] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{difference_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{difference_format}" }
 			end
 
 			context 'when fail_default_args is append: :selected' do
 				let(:fail_default_args){ [append: :selected] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{selected_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{selected_format}" }
 			end
 
 			context 'when pass_default_args is pass_message' do
 			let(:pass_args){ pass_message }
 
 				context 'when there are no fail_default_args' do
-					it{ is_expected.to eq "#{prepend} #{pass_message} #{difference_format}" }
+					it{ is_expected.to eq "#{prepend} #{pass_message}#{difference_format}" }
 
 				context 'when there are no fail_default_args' do
-					it{ is_expected.to eq "#{prepend} #{pass_message} #{difference_format}" }
+					it{ is_expected.to eq "#{prepend} #{pass_message}#{difference_format}" }
 				end
 
 				context 'when fail_default_args is a string' do
@@ -206,23 +216,23 @@ describe TarkaMatchers::Helpers::Utility do
 				end
 
 				context 'when fail_default_args is append: append_1' do
-					let(:fail_default_args){ [append: " #{append_1}"] }
-					it{ is_expected.to eq "#{prepend} #{pass_message} #{append_1}" }
+					let(:fail_default_args){ [append: "#{append_1}"] }
+					it{ is_expected.to eq "#{prepend} #{pass_message}#{append_1}" }
 				end
 
 				context 'when fail_default_args is append: append_2' do
-					let(:fail_default_args){ [append: " #{append_2}"] }
-					it{ is_expected.to eq "#{prepend} #{pass_message} #{append_2}" }
+					let(:fail_default_args){ [append: "#{append_2}"] }
+					it{ is_expected.to eq "#{prepend} #{pass_message}#{append_2}" }
 				end
 
 				context 'when fail_default_args is append: :difference' do
 					let(:fail_default_args){ [append: :difference] }
-					it{ is_expected.to eq "#{prepend} #{pass_message} #{difference_format}" }
+					it{ is_expected.to eq "#{prepend} #{pass_message}#{difference_format}" }
 				end
 
 				context 'when fail_default_args is append: :selected' do
 					let(:fail_default_args){ [append: :selected] }
-					it{ is_expected.to eq "#{prepend} #{pass_message} #{selected_format}" }
+					it{ is_expected.to eq "#{prepend} #{pass_message}#{selected_format}" }
 				end
 			end
 
@@ -239,23 +249,23 @@ describe TarkaMatchers::Helpers::Utility do
 			end
 
 			context 'when fail_default_args is append: append_1' do
-				let(:fail_default_args){ [append: " #{append_1}"] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{append_1}" }
+				let(:fail_default_args){ [append: "#{append_1}"] }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{append_1}" }
 			end
 
 			context 'when fail_default_args is append: append_1' do
-				let(:fail_default_args){ [append: " #{append_2}"] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{append_2}" }
+				let(:fail_default_args){ [append: "#{append_2}"] }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{append_2}" }
 			end
 
 			context 'when fail_default_args is append: :difference' do
 				let(:fail_default_args){ [append: :difference] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{difference_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{difference_format}" }
 			end
 
 			context 'when fail_default_args is append: :selected' do
 				let(:fail_default_args){ [append: :selected] }
-				it{ is_expected.to eq "#{prepend} #{pass_fallback_message} #{selected_format}" }
+				it{ is_expected.to eq "#{prepend} #{pass_fallback_message}#{selected_format}" }
 			end
 		end
 	end
