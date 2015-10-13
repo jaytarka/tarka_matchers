@@ -28,7 +28,7 @@ describe TarkaMatchers::Matchers::Regex do
 			context 'when expected is has an odd number of indexes' do
 				let(:expected){ [6,13,32] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "The indexes provided, '#{expected}', are of an odd number. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '#{escape actual}'." }
+				it{ is_expected.to have_a_failure_message_of "The indexes provided, '#{expected}', are of an odd number. Please provide the start and end index pairs of all sections of 'hello [432yuza wowowmely\\a [032yuzm awesome' that should be selected by '#{escape actual}'" }
 			end
 
 			context 'when expected contains less index pairs than matches' do
@@ -47,19 +47,20 @@ describe TarkaMatchers::Matchers::Regex do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [03zak" }
 				let(:expected){ [6,13] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '6' to '13'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '6' to '13'" }
 			end
 
 			context 'when expected is two correct index pairs' do
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '6' to '13' and '32' to '39'." }
+				it{ is_expected.to_not support_block_expectations }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '6' to '13' and '32' to '39'" }
 			end
 
 			context 'when expected is three correct index pairs' do
 				let(:string){ escape "hello [432yuza wowowmely\e[35ma [032yuzakzaw[555yuzak" }
 				let(:expected){ [6,13,32,39,44,51] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '6' to '13','32' to '39' and '44' to '51'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '6' to '13','32' to '39' and '44' to '51'" }
 			end
 
 			context 'when expected is incorrect indexes' do
@@ -75,7 +76,7 @@ describe TarkaMatchers::Matchers::Regex do
 					let(:expected){ ['[432yuza','[032yuza','[555yuza'] }
 
 					it{ is_expected.to pass }
-					it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' and match: '[432yuza','[032yuza' and '[555yuza'."  }
+					it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' and match: '[432yuza','[032yuza' and '[555yuza'"  }
 				end
 
 				context 'when expected is incorrect content' do
@@ -89,13 +90,13 @@ describe TarkaMatchers::Matchers::Regex do
 			context 'when expected contains a float' do
 				let(:expected){ [6,13,32.000000000000001,39] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected." }
+				it{ is_expected.to have_a_failure_message_of "Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected" }
 			end
 
 			context 'when expected is a mixture of content and indexes' do
 			let(:expected){ [6,13,'hello','awesome'] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected." }
+				it{ is_expected.to have_a_failure_message_of "Provided a wrongly formatted argument to 'match_sections'. 'match_sections' expects an argument sequence consisting exclusively of either the start and end indexes of all expected sections of the provided string selected by the match, or an example of the actual text that is selected" }
 			end
 		end
 
@@ -106,7 +107,7 @@ describe TarkaMatchers::Matchers::Regex do
 			context 'when expected is a correct extracts list' do
 				let(:expected){ ['I am friggin awesomely','awesome am','awesome hjkxx','xxmhk'] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk'." }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk'" }
 			end
 
 			context 'when expected is an incorrect extracts list' do
@@ -116,15 +117,21 @@ describe TarkaMatchers::Matchers::Regex do
 			end
 
 			context 'when expected is a correct indexes list' do
-				let(:expected){ [7,13] }
+				let(:expected){ [12, 33, 40, 49, 56, 68, 75, 79] }
 				it{ is_expected.to pass }
-				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '12' to '33','40' to '49','56' to '68' and '75' to '79'" }
 			end
 
 			context 'when expected is an incorrect indexes list' do
+				let(:expected){ [12, 33, 43, 49, 56, 58, 75, 86] }
+				it{ is_expected.to fail }
+				it{ is_expected.to have_a_description_of "should contain the pattern, '#{escape actual}' at positions '12' to '33','43' to '49','56' to '58' and '75' to '86'" }
+				it{ is_expected.to have_a_failure_message_of "The string, 'hello \\I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhk', does not contain the pattern, '#{escape actual}':#{selected_format}" }
+			end
+			context 'when expected is an incorrect number of indexes' do
 				let(:expected){ [7,22] }
 				it{ is_expected.to fail }
-				it{ is_expected.to have_a_failure_message_of "should contain the pattern, '#{escape actual}' and match: 'I am friggin awesomely','awesome am','awesome hjkxx' and 'xxmhk.'" }
+				it{ is_expected.to have_a_failure_message_of "The index pairs provided, '#{expected}', are less than the number of matches found in the string. Please provide the start and end index pairs of all sections of 'hello \\I am friggin awesomely\\awesome am\\awesome hjkxx\\xxmhk' that should be selected by '#{escape actual}':#{selected_format}" }
 			end
 		end
 	end
